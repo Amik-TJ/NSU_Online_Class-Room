@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2020 at 09:48 PM
+-- Generation Time: May 10, 2020 at 09:53 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `assignment_notice` (
   `post_id` varchar(255) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT 2,
-  `assignment_title` varchar(255) NOT NULL,
+  `assignment_title` varchar(255) DEFAULT 'No Assignment',
   `file` blob DEFAULT NULL,
   `due_date` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -41,7 +41,7 @@ CREATE TABLE `assignment_notice` (
 --
 
 INSERT INTO `assignment_notice` (`post_id`, `priority`, `assignment_title`, `file`, `due_date`) VALUES
-('cse_327_6_2', 2, 'Assignment 1', NULL, '2020-05-31 17:59:59.000000');
+('cse_327_6_3', 2, 'Assignment 1', NULL, '2020-05-10 19:40:04.244256');
 
 -- --------------------------------------------------------
 
@@ -98,29 +98,30 @@ INSERT INTO `comments` (`post_id`, `commiter_id`, `comments`) VALUES
 
 CREATE TABLE `enroll_student` (
   `class_id` varchar(20) NOT NULL,
-  `nsu_id` int(11) NOT NULL
+  `nsu_id` int(11) NOT NULL,
+  `semester` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `enroll_student`
 --
 
-INSERT INTO `enroll_student` (`class_id`, `nsu_id`) VALUES
-('cse_327_6', 1721277042),
-('cse_225_10', 1721277042),
-('cse_311_11', 1721277042),
-('cse_323_3', 1721277042),
-('cse_331_6', 1721277042),
-('cse_225_10', 1722231042),
-('cse_311_11', 1722231042),
-('cse_323_3', 1722231042),
-('cse_332_1', 1712275042),
-('cse_331_6', 1712275042),
-('cse_327_6', 1712275042),
-('cse_225_10', 1712390642),
-('cse_311_11', 1712390642),
-('cse_323_3', 1712390642),
-('cse_327_6', 1712390642);
+INSERT INTO `enroll_student` (`class_id`, `nsu_id`, `semester`) VALUES
+('cse_327_6', 1721277042, '202'),
+('cse_225_10', 1721277042, '202'),
+('cse_311_11', 1721277042, '202'),
+('cse_323_3', 1721277042, '202'),
+('cse_331_6', 1721277042, '202'),
+('cse_225_10', 1722231042, '202'),
+('cse_311_11', 1722231042, '202'),
+('cse_323_3', 1722231042, '202'),
+('cse_332_1', 1712275042, '202'),
+('cse_331_6', 1712275042, '202'),
+('cse_327_6', 1712275042, '202'),
+('cse_225_10', 1712390642, '202'),
+('cse_311_11', 1712390642, '202'),
+('cse_323_3', 1712390642, '202'),
+('cse_327_6', 1712390642, '202');
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,7 @@ INSERT INTO `enroll_student` (`class_id`, `nsu_id`) VALUES
 CREATE TABLE `exam_notice` (
   `post_id` varchar(255) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT 1,
-  `exam_title` varchar(255) NOT NULL,
+  `exam_title` varchar(255) DEFAULT 'No Exam',
   `exam_time_date` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
   `syllabus` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -199,6 +200,7 @@ INSERT INTO `person` (`name`, `email`, `phone_number`, `password`, `person_id`, 
 --
 
 CREATE TABLE `post` (
+  `post_serial` int(10) NOT NULL,
   `post_id` varchar(255) NOT NULL,
   `class_id` varchar(20) NOT NULL,
   `created_time` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
@@ -212,10 +214,11 @@ CREATE TABLE `post` (
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`post_id`, `class_id`, `created_time`, `created_by`, `priority`, `material`, `post_text`) VALUES
-('cse_327_6_1', 'cse_327_6', '2020-04-28 11:55:13.020723', '1721277042', 3, NULL, 'Hello ! THis is post 1 created by 1721277042 Student'),
-('cse_327_6_2', 'cse_327_6', '2020-05-30 03:33:28.207326', '1720000111', 1, NULL, 'We will have our Quiz after Quaratine'),
-('cse_327_6_3', 'cse_327_6', '2020-05-14 04:23:12.000000', '1720000111', 2, NULL, 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation');
+INSERT INTO `post` (`post_serial`, `post_id`, `class_id`, `created_time`, `created_by`, `priority`, `material`, `post_text`) VALUES
+(4, 'cse_225_10_4', 'cse_225_10', '2020-05-27 00:16:17.000000', '1721277042', 3, NULL, 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
+(1, 'cse_327_6_1', 'cse_327_6', '2020-04-28 11:55:13.020723', '1721277042', 3, NULL, 'Hello ! THis is post 1 created by 1721277042 Student'),
+(2, 'cse_327_6_2', 'cse_327_6', '2020-05-30 03:33:28.207326', '1720000111', 1, NULL, 'We will have our Quiz after Quaratine'),
+(3, 'cse_327_6_3', 'cse_327_6', '2020-05-14 04:23:12.000000', '1720000111', 2, NULL, 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation');
 
 -- --------------------------------------------------------
 
@@ -246,21 +249,22 @@ INSERT INTO `student_data` (`nsu_id`, `person_id`) VALUES
 
 CREATE TABLE `take_class` (
   `class_id` varchar(20) NOT NULL,
-  `faculty_id` int(12) NOT NULL
+  `faculty_id` int(12) NOT NULL,
+  `semester` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `take_class`
 --
 
-INSERT INTO `take_class` (`class_id`, `faculty_id`) VALUES
-('cse_327_6', 1720000111),
-('cse_225_10', 1720000111),
-('cse_311_11', 1920000111),
-('cse_323_3', 1920000111),
-('cse_327_7', 1920000111),
-('cse_331_6', 1610000111),
-('cse_332_1', 1610000111);
+INSERT INTO `take_class` (`class_id`, `faculty_id`, `semester`) VALUES
+('cse_327_6', 1720000111, '202'),
+('cse_225_10', 1720000111, '202'),
+('cse_311_11', 1920000111, '202'),
+('cse_323_3', 1920000111, '202'),
+('cse_327_7', 1920000111, '202'),
+('cse_331_6', 1610000111, '202'),
+('cse_332_1', 1610000111, '202');
 
 --
 -- Indexes for dumped tables
@@ -316,7 +320,8 @@ ALTER TABLE `person`
 --
 ALTER TABLE `post`
   ADD PRIMARY KEY (`post_id`),
-  ADD KEY `post_fk0` (`class_id`);
+  ADD KEY `post_fk0` (`class_id`),
+  ADD KEY `serial` (`post_serial`);
 
 --
 -- Indexes for table `student_data`
@@ -331,6 +336,16 @@ ALTER TABLE `student_data`
 ALTER TABLE `take_class`
   ADD KEY `take_class_fk0` (`class_id`),
   ADD KEY `take_class_fk1` (`faculty_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `post`
+--
+ALTER TABLE `post`
+  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -352,8 +367,8 @@ ALTER TABLE `comments`
 -- Constraints for table `enroll_student`
 --
 ALTER TABLE `enroll_student`
-  ADD CONSTRAINT `enroll_student_fk0` FOREIGN KEY (`class_id`) REFERENCES `class` (`class_id`),
-  ADD CONSTRAINT `enroll_student_fk1` FOREIGN KEY (`nsu_id`) REFERENCES `student_data` (`nsu_id`);
+  ADD CONSTRAINT `enroll_student_fk0` FOREIGN KEY (`class_id`) REFERENCES `class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `enroll_student_fk1` FOREIGN KEY (`nsu_id`) REFERENCES `student_data` (`nsu_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `exam_notice`

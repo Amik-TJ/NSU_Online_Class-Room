@@ -7,7 +7,7 @@
         private $conn;
         private $person_table = "person";
         private $student_table = "student_data";
-        private $teacher_table = "faculty_data";
+        private $faculty_table = "faculty_data";
 
         // Login Properties
         public $user_id;
@@ -46,7 +46,7 @@
 
             }else{
                 // SQL
-                $sql = "SELECT password FROM person where person_id=(SELECT person_id FROM student_data where nsu_id= :user_id )";
+                $sql = 'SELECT password FROM '. $this->person_table .' where person_id=(SELECT person_id FROM '. $this->student_table .' where nsu_id= :user_id )';
 
                 // Prepare Statement
                 $stmt = $this->conn->prepare($sql);
@@ -61,7 +61,7 @@
                 // Comparing Password
                 if ( $row['password'] === $this->password ) {
                     // Digging data from database after successfull login
-                    $sql = "SELECT p.name , p.email, p.gender from person as p, student_data as s where p.person_id=s.person_id and s.nsu_id= :user_id ";
+                    $sql = 'SELECT p.name , p.email, p.gender from '.$this->person_table.' as p, student_data as s where p.person_id=s.person_id and s.nsu_id= :user_id ';
 
                     // Prepare Statement
                     $stmt = $this->conn->prepare($sql);
@@ -96,7 +96,7 @@
 
             }else{
                 // SQL
-                $sql = "SELECT password FROM person where person_id=(SELECT person_id FROM faculty_data where faculty_initial= :user_id )";
+                $sql = 'SELECT password FROM '.$this->person_table.' where person_id=(SELECT person_id FROM '.$this->faculty_table.' where faculty_initial= :user_id )';
 
                 // Prepare Statement
                 $stmt = $this->conn->prepare($sql);
@@ -111,7 +111,7 @@
                 // Comparing Password
                 if ( $row['password'] === $this->password ) {
                     // Digging data from database after successfull login
-                    $sql = "SELECT p.name , p.email, p.gender, f.faculty_id from person as p, faculty_data as f where p.person_id=f.person_id and f.faculty_initial= :user_id";
+                    $sql = 'SELECT p.name , p.email, p.gender, f.faculty_id from '.$this->person_table.' as p, '.$this->faculty_table.' as f where p.person_id=f.person_id and f.faculty_initial= :user_id';
 
                     // Prepare Statement
                     $stmt = $this->conn->prepare($sql);
