@@ -27,7 +27,7 @@
     // Instantiate Classroom Method OBject
     $classroom = new Classroom($db);
     $classroom->token = $data->token;
-    $classroom->success = $data->success;
+    $classroom->success = $data->success; // Secret Message
     $classroom->user_id = $data->user_id;
 
     // Instantiate Injection Checking Class
@@ -40,6 +40,7 @@
         echo json_encode($classroom_arr);
         die();
     }else{
+        // Matching Secret Message
         if ($classroom->success === "Give All Classes Data"){
             // Checking any Null Value
             if(is_null($classroom->token)){
@@ -163,3 +164,4 @@
 
 
 ?>
+

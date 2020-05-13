@@ -26,7 +26,7 @@
         private $class_table = "class";
         private $take_class_table = "take_class";
         private $enroll_student_table = "enroll_student";
-            private $faculty_data_table = "faculty_data"; //For Student Only
+        private $faculty_data_table = "faculty_data"; //For Student Only
 
         public function __construct($db)
         {
@@ -40,7 +40,7 @@
             // initializing haturi for preventing Injections
             $haturi = new Tools();
             //checking Injections
-            if (!$haturi->test_input($this->user_id) || !$haturi->test_input($this->token)) {
+            if (!$haturi->test_input($this->user_id)) {
                 $this->conn = null;
                 $this->error_message = "HTML Injection Detected"; // Injection Detected ... Character: 23
             }

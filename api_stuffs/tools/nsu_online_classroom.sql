@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2020 at 09:53 PM
+-- Generation Time: May 13, 2020 at 09:52 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.3
+-- PHP Version: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,7 +31,6 @@ CREATE TABLE `assignment_notice` (
   `post_id` varchar(255) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT 2,
   `assignment_title` varchar(255) DEFAULT 'No Assignment',
-  `file` blob DEFAULT NULL,
   `due_date` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -40,8 +38,9 @@ CREATE TABLE `assignment_notice` (
 -- Dumping data for table `assignment_notice`
 --
 
-INSERT INTO `assignment_notice` (`post_id`, `priority`, `assignment_title`, `file`, `due_date`) VALUES
-('cse_327_6_3', 2, 'Assignment 1', NULL, '2020-05-10 19:40:04.244256');
+INSERT INTO `assignment_notice` (`post_id`, `priority`, `assignment_title`, `due_date`) VALUES
+('cse_327_6_3', 2, 'Assignment 1', '2020-05-10 19:40:04.244256'),
+('cse_327_6_5', 2, 'Assignment 2', '2020-05-25 19:40:13.000000');
 
 -- --------------------------------------------------------
 
@@ -88,7 +87,7 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`post_id`, `commiter_id`, `comments`) VALUES
-('cse_327_6_1', '1721277042', 'This is 1 st comment by 1721277042');
+('cse_327_6_1', 's1', 'This is 1 st comment by 1721277042');
 
 -- --------------------------------------------------------
 
@@ -133,16 +132,16 @@ CREATE TABLE `exam_notice` (
   `post_id` varchar(255) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT 1,
   `exam_title` varchar(255) DEFAULT 'No Exam',
-  `exam_time_date` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
-  `syllabus` text DEFAULT NULL
+  `exam_time_date` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `exam_notice`
 --
 
-INSERT INTO `exam_notice` (`post_id`, `priority`, `exam_title`, `exam_time_date`, `syllabus`) VALUES
-('cse_327_6_1', 1, 'Quiz 1', '2020-05-30 07:00:00.000000', 'Syllabus Slide 1- 20');
+INSERT INTO `exam_notice` (`post_id`, `priority`, `exam_title`, `exam_time_date`) VALUES
+('cse_327_6_2', 1, 'Quiz 1', '2020-05-13 11:23:30.535371'),
+('cse_327_6_6', 1, 'Quiz 2', '2020-05-28 19:00:00.000000');
 
 -- --------------------------------------------------------
 
@@ -215,10 +214,14 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`post_serial`, `post_id`, `class_id`, `created_time`, `created_by`, `priority`, `material`, `post_text`) VALUES
-(4, 'cse_225_10_4', 'cse_225_10', '2020-05-27 00:16:17.000000', '1721277042', 3, NULL, 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
-(1, 'cse_327_6_1', 'cse_327_6', '2020-04-28 11:55:13.020723', '1721277042', 3, NULL, 'Hello ! THis is post 1 created by 1721277042 Student'),
-(2, 'cse_327_6_2', 'cse_327_6', '2020-05-30 03:33:28.207326', '1720000111', 1, NULL, 'We will have our Quiz after Quaratine'),
-(3, 'cse_327_6_3', 'cse_327_6', '2020-05-14 04:23:12.000000', '1720000111', 2, NULL, 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation');
+(4, 'cse_225_10_4', 'cse_225_10', '2020-05-12 19:15:25.887169', 's1', 3, NULL, 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
+(8, 'cse_323_3_8', 'cse_323_3', '2020-05-13 23:47:35.000000', 's1', 3, NULL, 'This is Post 1 for CSE 323 Section 3 by fahad Rahman Amik'),
+(1, 'cse_327_6_1', 'cse_327_6', '2020-05-12 19:15:30.788584', 's1', 3, NULL, 'Hello ! THis is post 1 created by 1721277042 Student'),
+(2, 'cse_327_6_2', 'cse_327_6', '2020-05-12 19:15:41.792045', 'f1', 1, NULL, 'We will have our Quiz after Quaratine'),
+(3, 'cse_327_6_3', 'cse_327_6', '2020-05-12 19:15:46.024603', 'f1', 2, NULL, 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation'),
+(5, 'cse_327_6_5', 'cse_327_6', '2020-05-12 23:37:03.000000', 'f1', 2, NULL, 'This is Assignment 2 for CSE 327 Section 06\r\npost ID cse_327_6_5'),
+(6, 'cse_327_6_6', 'cse_327_6', '2020-05-05 19:09:03.000000', 'f1', 1, NULL, 'THIS is QUIZ 2 for CSE 327 Section 06\r\npost id cse_327_6_6 Created by KMB Sir'),
+(7, 'cse_327_6_7', 'cse_327_6', '2020-05-13 15:40:29.000000', 's1', 3, NULL, 'THis is Post 2 created by Fahad Rahman AMik . Class CSE 327 Section 6 . KMB sir...');
 
 -- --------------------------------------------------------
 
@@ -345,7 +348,7 @@ ALTER TABLE `take_class`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -381,12 +384,6 @@ ALTER TABLE `exam_notice`
 --
 ALTER TABLE `faculty_data`
   ADD CONSTRAINT `faculty_data_fk0` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
-
---
--- Constraints for table `post`
---
-ALTER TABLE `post`
-  ADD CONSTRAINT `post_fk0` FOREIGN KEY (`class_id`) REFERENCES `class` (`class_id`);
 
 --
 -- Constraints for table `student_data`
