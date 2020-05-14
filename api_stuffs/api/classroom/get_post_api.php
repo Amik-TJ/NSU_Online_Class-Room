@@ -24,7 +24,7 @@
     // Getting Data From User for API
     $data = json_decode(file_get_contents("php://input"));
 
-    // Instantiate Classroom Method OBject
+    // Instantiate Get Post Method Object
     $get_post = new Get_post($db);
     $get_post->class_id = $data->class_id;
     $get_post->secret_message = $data->secret_message;
@@ -59,12 +59,7 @@
 
             // Matching Secret Message
             if ($get_post->secret_message === "Give All Posts"){
-                if(is_null($get_post->class_id)){
-                    $classroom->error_message = "Class id is Required";
-                    $classroom_arr['error_message'] = $classroom->error_message;
-                    echo json_encode($classroom_arr);
-                    die();
-                }
+
                 // Need To query
                 $result = $get_post->posts();
                 $num = $result->rowCount();
@@ -91,8 +86,14 @@
                                 'post_text' => $post_text,
                                 'post_material' => $post_material
                             );
+                            // Getting Commetns;
+                            $get_post->comments($post_id);
+                            //$get_post->comments($post_id);
+                            $post_item['comments'] = $get_post->comments_arr;
                             // Push to $post_arr['data']
                             array_push($post_arr['data'], $post_item);
+
+
                         }
                         // All Done
                         echo json_encode($post_arr);

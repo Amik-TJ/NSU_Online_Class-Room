@@ -4,23 +4,30 @@
     class Get_post {
         // DB vars
         public $class_id;
+        //public $post_id;
+        public $rows; // for comments
         public $post_priority = 3;
         public $secret_message;
         public $error_message = "Initially There is no Error";
         public $message = false;
+        public $comments_arr = array(
+            'success' => 0,
+            'error_message' => "Initially No Error for Comments"
+        );
 
-        // THings that I will get from Query
+        /*// THings that I will get from Query
         public $post_id;
         public $creator_id;
         public $creator_name;
         public $created_time;
         public $post_text;
-        public $post_material;
+        public $post_material;*/
 
         // Things that i will neeed to execute query DB conn and Tables
         private $conn;
         private $post_table = "post";
         private $person_table = "person";
+        private $comments_table = "comments";
 
         // Constructor for initializing DB connection
         public function __construct($db)
@@ -58,6 +65,31 @@
                     $this->message = false;
                 }
             }
+        }
+
+        // Comments Method
+        public function comments($post_id){
+            if (empty($post_id)){
+                $comments_arr['error_message'] = "Post ID is Null";
+            }else{
+                $query = 'SELECT c.post_id, c.commiter_id, p.name as commiter_name, c.comments FROM '.$this->comments_table.' as c, person as p WHERE c.commiter_id=p.person_id and c.post_id = "'.$post_id.'"';
+
+                if($cmnt = $this->conn->query($query)){
+                    $num = $cmnt->rowCount();
+                    if( $num > 0 ){
+                        $rows = $cmnt->fetchALL(PDO::FETCH_ASSOC);
+                        $comments_arr = array(
+                            'success' => 1,
+                            'data' => $rows
+                        );
+                    }else{
+                        $comments_arr['error_message'] = "There is No Comments for this post";
+                    }
+                }else{
+                    $comments_arr['error_message'] = "There is a problem on Comments Query";
+                }
+            }
+
         }
     }
 ?>
