@@ -92,16 +92,15 @@
                             $post_item['comments'] = $get_post->comments_arr;
                             // Push to $post_arr['data']
                             array_push($post_arr['data'], $post_item);
-
-
                         }
                         // All Done
                         echo json_encode($post_arr);
-                        die();
 
-                    }else{// No Post Found
+                        die();
+                        // No Post Found
+                    }else{
                         $db = null;
-                        $post_arr['error_message'] = "No Posts Availabe";
+                        $post_arr['error_message'] = "No Posts Available";
                         echo json_encode($post_arr);
                         die();
                     }
@@ -118,10 +117,5 @@
             }
         }
     }
-
-
-
-
-
-
 ?>
+

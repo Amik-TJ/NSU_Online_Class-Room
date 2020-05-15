@@ -72,18 +72,21 @@
             if (empty($post_id)){
                 $comments_arr['error_message'] = "Post ID is Null";
             }else{
+                $this->comments_arr = array(
+                    'success' => 0,
+                    'error_message' => "There is No Comments for this post"
+                );
+
                 $query = 'SELECT c.post_id, c.commiter_id, p.name as commiter_name, c.comments FROM '.$this->comments_table.' as c, person as p WHERE c.commiter_id=p.person_id and c.post_id = "'.$post_id.'"';
 
                 if($cmnt = $this->conn->query($query)){
                     $num = $cmnt->rowCount();
                     if( $num > 0 ){
                         $rows = $cmnt->fetchALL(PDO::FETCH_ASSOC);
-                        $comments_arr = array(
+                        $this->comments_arr = array(
                             'success' => 1,
-                            'data' => $rows
+                            'data' => array($rows)
                         );
-                    }else{
-                        $comments_arr['error_message'] = "There is No Comments for this post";
                     }
                 }else{
                     $comments_arr['error_message'] = "There is a problem on Comments Query";

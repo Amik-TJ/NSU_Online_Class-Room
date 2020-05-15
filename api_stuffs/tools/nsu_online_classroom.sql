@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2020 at 07:14 PM
+-- Generation Time: May 15, 2020 at 01:14 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -88,7 +88,8 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`post_id`, `commiter_id`, `comments`) VALUES
 ('cse_327_6_1', 's1', 'This is 1 st comment by 1721277042'),
-('cse_327_6_1', 's3', 'This is comments By Student S3');
+('cse_327_6_1', 's3', 'This is comments By Student S3'),
+('cse_327_6_9', 's3', 'This is latest Comments');
 
 -- --------------------------------------------------------
 
@@ -222,7 +223,8 @@ INSERT INTO `post` (`post_serial`, `post_id`, `class_id`, `created_time`, `creat
 (3, 'cse_327_6_3', 'cse_327_6', '2020-05-12 19:15:46.024603', 'f1', 2, NULL, 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation'),
 (5, 'cse_327_6_5', 'cse_327_6', '2020-05-12 23:37:03.000000', 'f1', 2, NULL, 'This is Assignment 2 for CSE 327 Section 06\r\npost ID cse_327_6_5'),
 (6, 'cse_327_6_6', 'cse_327_6', '2020-05-05 19:09:03.000000', 'f1', 1, NULL, 'THIS is QUIZ 2 for CSE 327 Section 06\r\npost id cse_327_6_6 Created by KMB Sir'),
-(7, 'cse_327_6_7', 'cse_327_6', '2020-05-13 19:57:48.385815', 's1', 3, NULL, 'THis is Post 2 created by Fahad Rahman AMik . Class CSE 327 Section 6 . KMB sir. AND this post API works correctly');
+(7, 'cse_327_6_7', 'cse_327_6', '2020-05-13 19:57:48.385815', 's1', 3, NULL, 'THis is Post 2 created by Fahad Rahman AMik . Class CSE 327 Section 6 . KMB sir. AND this post API works correctly'),
+(9, 'cse_327_6_9', 'cse_327_6', '2020-05-19 10:58:40.000000', 's3', 3, NULL, 'This is post 3 Created for CSE 327 section 6 ');
 
 -- --------------------------------------------------------
 
@@ -349,7 +351,7 @@ ALTER TABLE `take_class`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
