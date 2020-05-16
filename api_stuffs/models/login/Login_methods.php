@@ -28,6 +28,7 @@
         // Common for both Faculty and Student
         public $email;
         public $gender;
+        public $person_id;
 
         public function __construct($db)
         {
@@ -61,7 +62,7 @@
                 // Comparing Password
                 if ( $row['password'] === $this->password ) {
                     // Digging data from database after successfull login
-                    $sql = 'SELECT p.name , p.email, p.gender from '.$this->person_table.' as p, student_data as s where p.person_id=s.person_id and s.nsu_id= :user_id ';
+                    $sql = 'SELECT p.person_id, p.name , p.email, p.gender from '.$this->person_table.' as p, student_data as s where p.person_id=s.person_id and s.nsu_id= :user_id ';
 
                     // Prepare Statement
                     $stmt = $this->conn->prepare($sql);
@@ -72,6 +73,7 @@
 
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+                    $this->person_id = $row['person_id'];
                     $this->student_name = $row['name'];
                     $this->email = $row['email'];
                     $this->gender= $row['gender'];
@@ -111,7 +113,7 @@
                 // Comparing Password
                 if ( $row['password'] === $this->password ) {
                     // Digging data from database after successfull login
-                    $sql = 'SELECT p.name , p.email, p.gender, f.faculty_id from '.$this->person_table.' as p, '.$this->faculty_table.' as f where p.person_id=f.person_id and f.faculty_initial= :user_id';
+                    $sql = 'SELECT p.person_id, p.name , p.email, p.gender, f.faculty_id from '.$this->person_table.' as p, '.$this->faculty_table.' as f where p.person_id=f.person_id and f.faculty_initial= :user_id';
 
                     // Prepare Statement
                     $stmt = $this->conn->prepare($sql);
@@ -122,6 +124,7 @@
 
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+                    $this->person_id = $row['person_id'];
                     $this->faculty_name = $row['name'];
                     $this->faculty_id = $row['faculty_id'];
                     $this->email = $row['email'];

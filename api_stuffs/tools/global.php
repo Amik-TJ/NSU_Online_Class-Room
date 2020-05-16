@@ -1,5 +1,10 @@
 <?php
-$login_url = "http://localhost/nsu_online_classroom/my_File/rds_api/login_api.php";
+    $login_url = "http://localhost/nsu_online_classroom/api_stuffs/api/login/login_api.php";
+    $class_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/classroom_api.php";
+    $post_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/get_post_api.php";
+    $assignment_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/get_assignment_api.php";
+    $exam_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/get_exam_api.php";
+
 
     function make_req($url, $load ){
     //url-ify the data for the POST

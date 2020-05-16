@@ -52,6 +52,7 @@
             $login_arr = array(
                 'success' => 1,
                 'token' => $token,
+                'person_id' => $login->person_id,
                 'nsu_id' => $login->user_id,
                 'student_name' => $login->student_name,
                 'email' => $login->email,
@@ -74,6 +75,7 @@
             $login_arr = array(
                 'success' => 1,
                 'token' => $token,
+                'person_id' => $login->person_id,
                 'faculty_name' => $login->faculty_name,
                 'faculty_initial' => $login->user_id,
                 'nsu_id' => $login->faculty_id,
