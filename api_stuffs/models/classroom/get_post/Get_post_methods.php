@@ -1,5 +1,5 @@
 <?php
-    include_once "../../tools/injection_checking.php";
+    include_once "../../../tools/injection_checking.php";
 
     class Get_post {
         // DB vars

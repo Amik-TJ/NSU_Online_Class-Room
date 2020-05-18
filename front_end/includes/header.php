@@ -7,11 +7,11 @@
     <title>Online Portal | North South University</title>
     <meta name="description" content="NSU Student Information Management System" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/bootstrap/font-awesome.min.css" />
-    <link rel="stylesheet" href="css/bootstrap/chosen.min.css" />
-    <link rel="stylesheet" href="css/bootstrap/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="css/bootstrap/main.css" />
+    <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap/chosen.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap/main.css" />
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">

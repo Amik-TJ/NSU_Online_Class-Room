@@ -7,9 +7,9 @@
 
 
     // Including Database and Methods of Login
-    include_once "../../tools/Database.php";
-    include_once "../../models/classroom/Get_post_methods.php";
-    include_once "../../tools/injection_checking.php";
+    include_once "../../../tools/Database.php";
+    include_once "../../../models/classroom/get_post/Get_post_methods.php";
+    include_once "../../../tools/injection_checking.php";
 
     // Response Array That will send Back to Web
     $post_arr = array (
@@ -69,7 +69,8 @@
                     if ($num > 0){
                         $post_arr = array (
                             'success' => 1,
-                            'class_id' => $get_post->class_id
+                            'class_id' => $get_post->class_id,
+                            'priority' => 3
                             );
 
                         //Putting Post Data into $post_arr['data']

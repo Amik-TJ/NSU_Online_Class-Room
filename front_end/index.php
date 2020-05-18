@@ -20,6 +20,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['student_name'] = $res['student_name'];
             $_SESSION['email'] = $res['email'];
             $_SESSION['gender'] = $res['gender'];
+            $_SESSION['security'] = true;
             header('Location: home.php');
 
         }else{// This is for Faculty
@@ -31,39 +32,16 @@ if (isset($_POST['submit'])) {
             $_SESSION['faculty_initial'] = $res['faculty_initial'];
             $_SESSION['email'] = $res['email'];
             $_SESSION['gender'] = $res['gender'];
+            $_SESSION['security'] = true;
             header('Location: home.php');
         }
     }else{
         $error = $res['error_message'];
     }
-
-
-    /*if(strlen($res) == 28){
-        $errors['pass'] = $res;
-    }else if(strlen($res) <=20){
-        $errors['pass'] = "wrong password";
-    }else{
-
-        $res = json_decode($res, true);
-        if(strlen($res['ststus'],'invalid')){
-            $errors['pass'] = "wrong password";
-        }else{
-            session_start();
-            $_SESSION['pass'] = $_POST['pass'];
-            $_SESSION['id'] = $_POST['name'];
-            $_SESSION['name'] = $res['name'];
-            $_SESSION['address'] = $res['add'];
-            $_SESSION['flag'] = $res['flag'];
-            $_SESSION['qstn'] = $res['qstn'];
-            $_SESSION['success'] = "";
-            header('Location: home.php');
-        }
-    }*/
 }// end of postcheck
 ?>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -82,7 +60,6 @@ if (isset($_POST['submit'])) {
         var ctoday = 1575734021000;
     </script>
 </head>
-
 <body>
 <div id="navbar" class="navbar navbar-default navbar-collapse faculty-header">
     <div class="navbar-container  container" id="navbar-container">
@@ -94,7 +71,6 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="clearfix"></div>
 </div>
-
 <div class="main-container ace-save-state container" id="main-container">
     <div class="page-content main-content">
         <div class="row">
@@ -146,8 +122,6 @@ if (isset($_POST['submit'])) {
                         </div>
                     </div>
                     <div class="clearfix"></div>
-
-
                 </div>
             </div>
         </div>
@@ -162,5 +136,4 @@ if (isset($_POST['submit'])) {
 </div>
 </div>
 </body>
-
 </html>

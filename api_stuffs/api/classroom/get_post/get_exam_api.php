@@ -7,9 +7,9 @@
 
 
     // Including Database and Methods of Login
-    include_once "../../tools/Database.php";
-    include_once "../../models/classroom/Get_exam_methods.php";
-    include_once "../../tools/injection_checking.php";
+    include_once "../../../tools/Database.php";
+    include_once "../../../models/classroom/get_post/Get_exam_methods.php";
+    include_once "../../../tools/injection_checking.php";
 
     // Response Array That will send Back to Web
     $exam_arr = array(
@@ -69,7 +69,8 @@
                     if ($num > 0){
                         $exam_arr = array (
                             'success' => 1,
-                            'class_id' => $exam->class_id
+                            'class_id' => $exam->class_id,
+                            'priority' => 1
                         );
 
                         //Putting Post Data into $exam_arr['data']
@@ -79,6 +80,7 @@
                             extract($row);
 
                             $exam_item = array(
+                                'post_id' => $post_id,
                                 'exam_title' => $exam_title,
                                 'created_time' => $created_time,
                                 'exam_time_date' => $exam_time_date,

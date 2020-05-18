@@ -7,9 +7,9 @@
 
 
     // Including Database and Methods of Login
-    include_once "../../tools/Database.php";
-    include_once "../../models/classroom/Get_assignment_methods.php";
-    include_once "../../tools/injection_checking.php";
+    include_once "../../../tools/Database.php";
+    include_once "../../../models/classroom/get_post/Get_assignment_methods.php";
+    include_once "../../../tools/injection_checking.php";
 
     // Response Array That will send Back to Web
     $assignment_arr = array(
@@ -69,7 +69,8 @@
                     if ($num > 0){
                         $assignment_arr = array (
                             'success' => 1,
-                            'class_id' => $assignment->class_id
+                            'class_id' => $assignment->class_id,
+                            'priority' => 2
                         );
 
                         //Putting Post Data into $post_arr['data']
@@ -79,6 +80,7 @@
                             extract($row);
 
                             $assignment_item = array(
+                                'post_id' => $post_id,
                                 'assignment_title' => $assignment_title,
                                 'created_time' => $created_time,
                                 'assignment_due_date' => $assignment_due_date,

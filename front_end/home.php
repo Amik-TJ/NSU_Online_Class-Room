@@ -1,40 +1,47 @@
 <?php
 //include_once 'includes/header.php';
     session_start();
-    $token = $_SESSION['token'];
-    // log out
-    if (isset($_GET['log_out'])) {
-        if ($token){
-            $_SESSION['token'] = null;
-            $_SESSION['nsu_id'] = null;
-            $_SESSION['person_id'] = null;
-            $_SESSION['student_name'] = null;
-            $_SESSION['email'] = null;
-            $_SESSION['gender'] = null;
+    if ($_SESSION['security']){
+        $token = $_SESSION['token'];
+        // log out
+        if (isset($_GET['log_out'])) {
+            if ($token){
+                $_SESSION['token'] = null;
+                $_SESSION['nsu_id'] = null;
+                $_SESSION['person_id'] = null;
+                $_SESSION['student_name'] = null;
+                $_SESSION['email'] = null;
+                $_SESSION['gender'] = null;
+            }else{
+                $_SESSION['token'] = null;
+                $_SESSION['nsu_id'] = null;
+                $_SESSION['person_id'] = null;
+                $_SESSION['faculty_name'] = null;
+                $_SESSION['faculty_initial'] = null;
+                $_SESSION['email'] = null;
+                $_SESSION['gender'] = null;
+            }
+            $_SESSION['security'] = false;
+            session_destroy();
+            header('Location: index.php');
         }else{
-            $_SESSION['token'] = null;
-            $_SESSION['nsu_id'] = null;
-            $_SESSION['person_id'] = null;
-            $_SESSION['faculty_name'] = null;
-            $_SESSION['faculty_initial'] = null;
-            $_SESSION['email'] = null;
-            $_SESSION['gender'] = null;
+            // Session er data rakhtesi home e display korar jnnno !
+            if($token){
+                $name = $_SESSION['student_name'];
+            }else{
+                $name = $_SESSION['faculty_name'];
+            }
+            $nsu_id = $_SESSION['nsu_id'];
+            $email = $_SESSION['email'];
+            $gender = $_SESSION['gender'];
         }
-        session_destroy();
-        header('Location: index.php');
     }else{
-        // Session er data rakhtesi home e display korar jnnno !
-        if($token){
-            $name = $_SESSION['student_name'];
-        }else{
-            $name = $_SESSION['faculty_name'];
-        }
-        $nsu_id = $_SESSION['nsu_id'];
-        $email = $_SESSION['email'];
-        $gender = $_SESSION['gender'];
+        echo "You are Not Logged In";
+        header('Location: index.php');
     }
 
-    // API
+
+    /*// API
     include_once '../api_stuffs/tools/global.php';
     $load = array(
         'token' => $token,
@@ -46,7 +53,7 @@
     $_SESSION['res'] = $res;
     echo "<pre>";
     print_r($_SESSION['res']);
-    echo "</pre>";
+    echo "</pre>";*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +99,7 @@
         <ul class="nav nav-list">
             <li class="hover blank" style="width:189px">&nbsp;</li>
             <li class="hover">
-                <a href="Home.php">
+                <a href="home.php">
                     <i class="menu-icon fa fa-home"></i>
                     <span class="menu-text">Home</span>
                 </a>

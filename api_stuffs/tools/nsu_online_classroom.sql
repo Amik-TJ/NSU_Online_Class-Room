@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2020 at 09:14 AM
+-- Generation Time: May 18, 2020 at 10:28 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -88,8 +88,7 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`post_id`, `commiter_id`, `comments`) VALUES
 ('cse_327_6_1', 's1', 'This is 1 st comment by 1721277042'),
-('cse_327_6_1', 's3', 'This is comments By Student S3'),
-('cse_327_6_9', 's3', 'This is latest Comments');
+('cse_327_6_1', 's3', 'This is comments By Student S3');
 
 -- --------------------------------------------------------
 
@@ -163,7 +162,6 @@ CREATE TABLE `faculty_data` (
 
 INSERT INTO `faculty_data` (`faculty_iD`, `faculty_initial`, `person_id`) VALUES
 (1610000111, 'DHN', 'f3'),
-(1610000112, 'NVA', 'f4'),
 (1720000111, 'KMB', 'f1'),
 (1920000111, 'ITN', 'f2');
 
@@ -179,6 +177,7 @@ CREATE TABLE `person` (
   `phone_number` int(11) NOT NULL,
   `password` varchar(50) NOT NULL,
   `person_id` varchar(255) NOT NULL,
+  `token` int(10) NOT NULL DEFAULT 1,
   `gender` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -186,16 +185,14 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-INSERT INTO `person` (`name`, `email`, `phone_number`, `password`, `person_id`, `gender`) VALUES
-('Khan Mohammad Habibullah', 'khan.habibullah@northsouth.edu', 1311111111, '1234', 'f1', 'male'),
-('Intisar Tahmid', 'intisarnsu@gmail.com', 1786666666, '1234', 'f2', 'male'),
-('Dihan Md Nurudddin', 'dihannsu@gmail.com', 1812222222, '1234', 'f3', 'male'),
-('Dr. Nova Ahmed', 'nova.ahmed@northsouth.edu', 1911111111, '1234', 'f4', 'female'),
-('Fahad Rahman Amik', 'amiknsu@gmail.com', 1685290796, '1234', 's1', 'male'),
-('Ariful Haque', 'arifulnsu@gmail.com', 1687878656, '1234', 's2', 'male'),
-('Yearat Hossain', 'yearatnsu@gmail.com', 1678888009, '1234', 's3', 'male'),
-('Simanto Tareq', 'tareqnsu@gmail.com', 1699999999, '1234', 's4', 'male'),
-('Anika Jahin', 'anika.jahin01@northsouth.edu', 1684444444, '1234', 's5', 'female');
+INSERT INTO `person` (`name`, `email`, `phone_number`, `password`, `person_id`, `token`, `gender`) VALUES
+('Khan Mohammad Habibullah', 'khan.habibullah@northsouth.edu', 1311111111, '1234', 'f1', 0, 'male'),
+('Intisar Tahmid', 'intisarnsu@gmail.com', 1786666666, '1234', 'f2', 0, 'male'),
+('Dihan Md Nurudddin', 'dihannsu@gmail.com', 1812222222, '1234', 'f3', 0, 'male'),
+('Fahad Rahman Amik', 'amiknsu@gmail.com', 1685290796, '1234', 's1', 1, 'male'),
+('Ariful Haque', 'arifulnsu@gmail.com', 1687878656, '1234', 's2', 1, 'male'),
+('Yearat Hossain', 'yearatnsu@gmail.com', 1678888009, '1234', 's3', 1, 'male'),
+('Simanto Tareq', 'tareqnsu@gmail.com', 1699999999, '1234', 's4', 1, 'male');
 
 -- --------------------------------------------------------
 
@@ -209,8 +206,9 @@ CREATE TABLE `post` (
   `class_id` varchar(20) NOT NULL,
   `created_time` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
   `created_by` varchar(255) NOT NULL,
+  `token` int(10) NOT NULL DEFAULT 1,
   `priority` int(10) NOT NULL DEFAULT 3,
-  `material` blob DEFAULT NULL,
+  `material` text DEFAULT 'false',
   `post_text` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -218,16 +216,19 @@ CREATE TABLE `post` (
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`post_serial`, `post_id`, `class_id`, `created_time`, `created_by`, `priority`, `material`, `post_text`) VALUES
-(4, 'cse_225_10_4', 'cse_225_10', '2020-05-12 19:15:25.887169', 's1', 3, NULL, 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
-(8, 'cse_323_3_8', 'cse_323_3', '2020-05-13 23:47:35.000000', 's1', 3, NULL, 'This is Post 1 for CSE 323 Section 3 by fahad Rahman Amik'),
-(1, 'cse_327_6_1', 'cse_327_6', '2020-05-12 19:15:30.788584', 's1', 3, NULL, 'Hello ! THis is post 1 created by 1721277042 Student'),
-(2, 'cse_327_6_2', 'cse_327_6', '2020-05-12 19:15:41.792045', 'f1', 1, NULL, 'We will have our Quiz after Quaratine'),
-(3, 'cse_327_6_3', 'cse_327_6', '2020-05-12 19:15:46.024603', 'f1', 2, NULL, 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation'),
-(5, 'cse_327_6_5', 'cse_327_6', '2020-05-12 23:37:03.000000', 'f1', 2, NULL, 'This is Assignment 2 for CSE 327 Section 06\r\npost ID cse_327_6_5'),
-(6, 'cse_327_6_6', 'cse_327_6', '2020-05-05 19:09:03.000000', 'f1', 1, NULL, 'THIS is QUIZ 2 for CSE 327 Section 06\r\npost id cse_327_6_6 Created by KMB Sir'),
-(7, 'cse_327_6_7', 'cse_327_6', '2020-05-13 19:57:48.385815', 's1', 3, NULL, 'THis is Post 2 created by Fahad Rahman AMik . Class CSE 327 Section 6 . KMB sir. AND this post API works correctly'),
-(9, 'cse_327_6_9', 'cse_327_6', '2020-05-19 10:58:40.000000', 's3', 3, NULL, 'This is post 3 Created for CSE 327 section 6 ');
+INSERT INTO `post` (`post_serial`, `post_id`, `class_id`, `created_time`, `created_by`, `token`, `priority`, `material`, `post_text`) VALUES
+(10, 'cse_225_10_10', 'cse_225_10', '2020-05-18 20:14:53.000000', 's1', 1, 3, 'image_for_cse_225.jpg', 'This is a trial 2 for CREATE POST API'),
+(11, 'cse_225_10_11', 'cse_225_10', '2020-05-18 20:17:02.000000', 'f1', 0, 3, 'image_for_cse_225.jpg', 'This is a trial 3 by faculty for CREATE POST API'),
+(12, 'cse_225_10_12', 'cse_225_10', '2020-05-18 20:17:24.000000', 'f1', 0, 3, 'image_for_cse_225.jpg', 'Your Exam will not be held'),
+(4, 'cse_225_10_4', 'cse_225_10', '2020-05-17 18:58:18.831645', 's1', 1, 3, 'false', 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
+(8, 'cse_323_3_8', 'cse_323_3', '2020-05-17 18:58:33.807679', 's1', 1, 3, 'false', 'This is Post 1 for CSE 323 Section 3 by fahad Rahman Amik'),
+(1, 'cse_327_6_1', 'cse_327_6', '2020-05-17 18:58:55.477750', 's1', 1, 3, 'false', 'Hello ! THis is post 1 created by 1721277042 Student'),
+(2, 'cse_327_6_2', 'cse_327_6', '2020-05-17 18:58:11.694176', 'f1', 0, 1, 'false', 'We will have our Quiz after Quaratine'),
+(3, 'cse_327_6_3', 'cse_327_6', '2020-05-17 18:58:15.598262', 'f1', 0, 2, 'false', 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation'),
+(5, 'cse_327_6_5', 'cse_327_6', '2020-05-17 18:58:22.919218', 'f1', 0, 2, 'false', 'This is Assignment 2 for CSE 327 Section 06\r\npost ID cse_327_6_5'),
+(6, 'cse_327_6_6', 'cse_327_6', '2020-05-17 18:58:25.951752', 'f1', 0, 1, 'false', 'THIS is QUIZ 2 for CSE 327 Section 06\r\npost id cse_327_6_6 Created by KMB Sir'),
+(7, 'cse_327_6_7', 'cse_327_6', '2020-05-17 18:58:39.079712', 's1', 1, 3, 'false', 'THis is Post 2 created by Fahad Rahman AMik . Class CSE 327 Section 6 . KMB sir. AND this post API works correctly'),
+(9, 'cse_327_6_9', 'cse_327_6', '2020-05-18 20:10:16.000000', 's1', 1, 3, 'image.jpg', 'This is a trial for CREATE POST API');
 
 -- --------------------------------------------------------
 
@@ -248,8 +249,7 @@ INSERT INTO `student_data` (`nsu_id`, `person_id`) VALUES
 (1721277042, 's1'),
 (1722231042, 's2'),
 (1712275042, 's3'),
-(1712390642, 's4'),
-(1811895030, 's5');
+(1712390642, 's4');
 
 -- --------------------------------------------------------
 
@@ -355,7 +355,7 @@ ALTER TABLE `take_class`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

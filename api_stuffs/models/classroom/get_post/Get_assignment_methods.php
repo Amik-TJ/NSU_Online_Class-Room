@@ -1,5 +1,5 @@
 <?php
-    include_once "../../tools/injection_checking.php";
+    include_once "../../../tools/injection_checking.php";
 
     class Assignment {
         // DB vars
@@ -35,7 +35,7 @@
                 $this->conn = null;
                 $this->error_message = "Html Injection detected on Class ID";
             }else{
-                $sql = 'select an.assignment_title, p.created_time , an.due_date as assignment_due_date, p.material, p.post_text FROM '.$this->assignment_notice_table.' as an, '.$this->post_table.' as p where p.class_id= :class_id and p.post_id=an.post_id';
+                $sql = 'select p.post_id, an.assignment_title, p.created_time , an.due_date as assignment_due_date, p.material, p.post_text FROM '.$this->assignment_notice_table.' as an, '.$this->post_table.' as p where p.class_id= :class_id and p.post_id=an.post_id';
 
                 // Prepare Statement
                 if($stmt = $this->conn->prepare($sql)){
