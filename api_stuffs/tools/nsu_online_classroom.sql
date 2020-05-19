@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2020 at 10:28 PM
+-- Generation Time: May 19, 2020 at 11:36 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -39,6 +39,7 @@ CREATE TABLE `assignment_notice` (
 --
 
 INSERT INTO `assignment_notice` (`post_id`, `priority`, `assignment_title`, `due_date`) VALUES
+('cse_327_6_13', 2, 'Assignment 3', '2020-05-20 07:00:00.000000'),
 ('cse_327_6_3', 2, 'Assignment 1', '2020-05-10 19:40:04.244256'),
 ('cse_327_6_5', 2, 'Assignment 2', '2020-05-25 19:40:13.000000');
 
@@ -88,7 +89,11 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`post_id`, `commiter_id`, `comments`) VALUES
 ('cse_327_6_1', 's1', 'This is 1 st comment by 1721277042'),
-('cse_327_6_1', 's3', 'This is comments By Student S3');
+('cse_327_6_1', 's3', 'This is comments By Student S3'),
+('cse_327_6_1', 's1', ' This is a comment for test'),
+('cse_225_10_4', 's1', 'This is a trial Comment for CREATE Comment API'),
+('cse_225_10_4', 's1', 'This is a trial Comment for CREATE Comment API'),
+('cse_225_10_4', 'f1', 'This is a trial Comment for CREATE Comment API');
 
 -- --------------------------------------------------------
 
@@ -142,7 +147,8 @@ CREATE TABLE `exam_notice` (
 
 INSERT INTO `exam_notice` (`post_id`, `priority`, `exam_title`, `exam_time_date`) VALUES
 ('cse_327_6_2', 1, 'Quiz 1', '2020-05-13 11:23:30.535371'),
-('cse_327_6_6', 1, 'Quiz 2', '2020-05-28 19:00:00.000000');
+('cse_327_6_6', 1, 'Quiz 2', '2020-05-28 19:00:00.000000'),
+('cse_327_6_14', 1, 'Quiz 3', '2020-05-20 07:00:00.000000');
 
 -- --------------------------------------------------------
 
@@ -223,6 +229,8 @@ INSERT INTO `post` (`post_serial`, `post_id`, `class_id`, `created_time`, `creat
 (4, 'cse_225_10_4', 'cse_225_10', '2020-05-17 18:58:18.831645', 's1', 1, 3, 'false', 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
 (8, 'cse_323_3_8', 'cse_323_3', '2020-05-17 18:58:33.807679', 's1', 1, 3, 'false', 'This is Post 1 for CSE 323 Section 3 by fahad Rahman Amik'),
 (1, 'cse_327_6_1', 'cse_327_6', '2020-05-17 18:58:55.477750', 's1', 1, 3, 'false', 'Hello ! THis is post 1 created by 1721277042 Student'),
+(13, 'cse_327_6_13', 'cse_327_6', '2020-05-19 19:02:41.000000', 'f1', 0, 2, '', 'This is a trial for CREATE Assignment API'),
+(14, 'cse_327_6_14', 'cse_327_6', '2020-05-19 20:17:01.000000', 'f1', 0, 1, '', 'This is a trial for CREATE Exam API'),
 (2, 'cse_327_6_2', 'cse_327_6', '2020-05-17 18:58:11.694176', 'f1', 0, 1, 'false', 'We will have our Quiz after Quaratine'),
 (3, 'cse_327_6_3', 'cse_327_6', '2020-05-17 18:58:15.598262', 'f1', 0, 2, 'false', 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation'),
 (5, 'cse_327_6_5', 'cse_327_6', '2020-05-17 18:58:22.919218', 'f1', 0, 2, 'false', 'This is Assignment 2 for CSE 327 Section 06\r\npost ID cse_327_6_5'),
@@ -284,6 +292,7 @@ INSERT INTO `take_class` (`class_id`, `faculty_id`, `semester`) VALUES
 -- Indexes for table `assignment_notice`
 --
 ALTER TABLE `assignment_notice`
+  ADD UNIQUE KEY `post_id` (`post_id`),
   ADD KEY `assignment_notice_fk0` (`post_id`);
 
 --
@@ -355,7 +364,7 @@ ALTER TABLE `take_class`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

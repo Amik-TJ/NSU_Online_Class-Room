@@ -93,10 +93,11 @@ class Create_post {
             $sql = 'SELECT * FROM '.$this->post_table;
             $stmt = $this->conn->query($sql);
             $num = $stmt->rowCount();
-            $this->post_id = $this->class_id.'_'.($num+1);
+            $post_num = $num+1;
+            $this->post_id = $this->class_id.'_'.$post_num;
 
             // Inserting  Post Data in Database
-            $sql = "INSERT INTO post( post_id, class_id, created_time, created_by, token, priority, material, post_text) VALUES ( :post_id , :class_id , now() , :created_by , :token , :priority , :material , :post_text )";
+            $sql = 'INSERT INTO post( post_serial , post_id, class_id, created_time, created_by, token, priority, material, post_text) VALUES ( '.$post_num.', :post_id , :class_id , now() , :created_by , :token , :priority , :material , :post_text )';
             if($stmt = $this->conn->prepare($sql)){
             // Executing Query
                 if($stmt->execute(array(
