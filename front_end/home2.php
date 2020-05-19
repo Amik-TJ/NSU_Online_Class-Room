@@ -44,9 +44,9 @@
     $res = make_req($class_url, $load);
     $res = json_decode($res, true);
     $_SESSION['res'] = $res;
-    echo "<pre>";
+    //echo "<pre>";
     //print_r($_SESSION['res']);
-    echo "</pre>";
+    //echo "</pre>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,8 +139,8 @@
 
 
     <div class="container text-muted px-5 py-5">
-        <div class="row justify-content-center">
-            <div class="col-4">
+        <div class="row justify-content-center px-15 py-15 ">
+            <div class="col-4 mb-3">
 
                 <div class="card text-white bg-warning " style="max-width: 30rem;">
 
@@ -154,7 +154,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+
+            <div class="col-4 mb-3">
                 <div class="card text-white bg-success  " style="max-width: 30rem;">
 
                     <div class="card-body px-3 py-3">
@@ -167,7 +168,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-4 mb-3">
                 <div class="card text-white bg-danger " style="max-width: 30rem;">
 
                     <div class="card-body px-3 py-3">
@@ -180,7 +181,32 @@
                     </div>
                 </div>
             </div>
-            
+            <div class="col-4 mb-3">
+                <div class="card text-white bg-success " style="max-width: 30rem;">
+
+                    <div class="card-body px-3 py-3">
+                        <a href="#" class="text-white"> <h2>CSE 327</h2> </a>
+                        <h5 class="card-text">Section: 10</h5>
+                        <h4 class="card-text"> </h4>
+                        <h4 class="card-text"> </h4>
+                        <h4 class="card-text">Time: ST 4:20-5:50 </h4>
+                        <h4 class="card-text">Room: SAC 402 </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 mb-3">
+                <div class="card text-white bg-danger " style="max-width: 30rem;">
+
+                    <div class="card-body px-3 py-3">
+                        <a href="#" class="text-white"> <h2>CSE 327</h2> </a>
+                        <h5 class="card-text">Section: 10</h5>
+                        <h4 class="card-text"> </h4>
+                        <h4 class="card-text"> </h4>
+                        <h4 class="card-text">Time: ST 4:20-5:50 </h4>
+                        <h4 class="card-text">Room: SAC 402 </h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
