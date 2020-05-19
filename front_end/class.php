@@ -44,9 +44,10 @@
     $res = make_req($class_url, $load);
     $res = json_decode($res, true);
     $_SESSION['res'] = $res;
-    echo "<pre>";
+    //echo "<pre>";
     //print_r($_SESSION['res']);
-    echo "</pre>";
+    //echo "</pre>";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,9 +86,19 @@
              /* Added */
     }
 
+        img {
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 3px;
+      width: 60px;
+    }
 
+        img:hover {
+      box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    }
 
     </style>
+
   </head>
   <body>
 
@@ -112,6 +123,7 @@
     </nav>
 
 
+    <!--The Huge Blue Banner-->
     <div class="jumbotron jumbotron-fluid bg-info text-white text-center">
         <div class="container">
             <h1 class="display-1">CSE 327: Software Engineering</h1>
@@ -122,9 +134,15 @@
     </div>
 
 
+    <!--This Container Contains Everything.
+        Arranged In A Row With Three Main Component
+        Two Tables And A Middle Part-->
+
     <div class="container-fluid">
         <div class="row" >
-            <div class="col">
+
+            <!--Exam Table Stays At Left-->
+            <div class="col-sm-3">
                 <div class="d-flex justify-content-center">
 
 
@@ -140,16 +158,30 @@
                 </div>
                 </div>
             </div>
-            <div class="col-6">
 
+            <!--Create Post and Timeline Stays At Middle-->
+            <div class="col-sm-6">
+
+                <!--Separated In Two Parts
+                    Create Post And Time Line-->
                 <div class="col">
-                    <div class="row">
+
+                    <!--Create Post Section-->
+                    <div class="row mb-5">
                         <div class="container">
                             <form>
+                                <!--Text Box-->
                                 <h3> Create Post</h3>
                                 <div class="space-4"></div>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                <div class="space-3"></div>
+
+                                <!--Choose File-->
+                                <label for="exampleFormControlFile1">Upload a file</label>
+                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
                                 <div class="space-4"></div>
+
+                                <!--Topic Selecter-->
                                 <select class="form-control form-control-sm">
                                     <option>Assignment</option>
                                     <option>Exam</option>
@@ -158,13 +190,19 @@
                                 <div class="space-4"></div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
-                            <div class="space-6"></div>
+                            <div class="space-8"></div>
                         </div>
                     </div>
+
+                    <!--Timline Section-->
                     <div class="row">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Topic of Assignment 1</h4>
+                                <a href="#"></a>
+                                <img src="Imgs/faculty_male.png" class="rounded float-left" alt="">
+                                </a>
+                                <h5>Khan Md Habibullah</h5>
+                                <p>161000042</hp>
                             </div>
                             <div class="card-body">
                                 <blockquote class="blockquote mb-0">
@@ -173,13 +211,17 @@
                                         SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.
 
                                         SoftEther VPN is an optimum alternative to OpenVPN and Microsoft's VPN servers. SoftEther VPN has a clone-function of OpenVPN Server. You can integrate from OpenVPN to SoftEther VPN smoothly. SoftEther VPN is faster than OpenVPN. SoftEther VPN also supports Microsoft SSTP VPN for Windows Vista / 7 / 8. No more need to pay expensive charges for Windows Server license for Remote-Access VPN function.</p>
-                                    <footer class="blockquote-footer"> Posted by Faculty 2 days ago <cite title="Source Title">#Exam</cite></footer>
+                                    <footer class="blockquote-footer"> Posted 2 days ago <cite title="Source Title">#Exam</cite></footer>
                                 </blockquote>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4>Mid 1 Syllabus</h4>
+                                <a href="#"></a>
+                                <img src="Imgs/student_male.jpg" class="rounded float-left " alt="">
+                                </a>
+                                <h5>Yearat Hossain</h5>
+                                <p>1712275642</hp>
                             </div>
                             <div class="card-body">
                                 <blockquote class="blockquote mb-0">
@@ -188,7 +230,7 @@
                                         SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.
 
                                         SoftEther VPN is an optimum alternative to OpenVPN and Microsoft's VPN servers. SoftEther VPN has a clone-function of OpenVPN Server. You can integrate from OpenVPN to SoftEther VPN smoothly. SoftEther VPN is faster than OpenVPN. SoftEther VPN also supports Microsoft SSTP VPN for Windows Vista / 7 / 8. No more need to pay expensive charges for Windows Server license for Remote-Access VPN function.</p>
-                                    <footer class="blockquote-footer"> Posted by Faculty 2 days ago <cite title="Source Title">#Assignment</cite></footer>
+                                    <footer class="blockquote-footer"> Posted 5 days ago <cite title="Source Title">#Assignment</cite></footer>
                                 </blockquote>
                             </div>
                         </div>
@@ -197,7 +239,9 @@
                 </div>
 
             </div>
-            <div class="col">
+
+            <!--Assignment Table Stays At Right-->
+            <div class="col-sm-3">
                 <div class="d-flex justify-content-center">
                 <div class="card" style="width: 25rem;">
                     <div class="card-header">

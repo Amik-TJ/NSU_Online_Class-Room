@@ -44,9 +44,9 @@
     $res = make_req($class_url, $load);
     $res = json_decode($res, true);
     $_SESSION['res'] = $res;
-    echo "<pre>";
+    //echo "<pre>";
     //print_r($_SESSION['res']);
-    echo "</pre>";
+    //echo "</pre>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
