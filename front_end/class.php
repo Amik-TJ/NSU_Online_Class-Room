@@ -1,52 +1,29 @@
 <?php
-//include_once 'includes/header.php';
     session_start();
     $token = $_SESSION['token'];
-    // log out
-    if (isset($_GET['log_out'])) {
-        if ($token){
-            $_SESSION['token'] = null;
-            $_SESSION['nsu_id'] = null;
-            $_SESSION['person_id'] = null;
-            $_SESSION['student_name'] = null;
-            $_SESSION['email'] = null;
-            $_SESSION['gender'] = null;
-        }else{
-            $_SESSION['token'] = null;
-            $_SESSION['nsu_id'] = null;
-            $_SESSION['person_id'] = null;
-            $_SESSION['faculty_name'] = null;
-            $_SESSION['faculty_initial'] = null;
-            $_SESSION['email'] = null;
-            $_SESSION['gender'] = null;
-        }
-        session_destroy();
-        header('Location: index.php');
+    if($token){
+        $name = $_SESSION['student_name'];
     }else{
-        // Session er data rakhtesi home e display korar jnnno !
-        if($token){
-            $name = $_SESSION['student_name'];
-        }else{
-            $name = $_SESSION['faculty_name'];
-        }
-        $nsu_id = $_SESSION['nsu_id'];
-        $email = $_SESSION['email'];
-        $gender = $_SESSION['gender'];
+        $name = $_SESSION['faculty_name'];
     }
+    $nsu_id = $_SESSION['nsu_id'];
+    $email = $_SESSION['email'];
+    $gender = $_SESSION['gender'];
+
 
     // API
     include_once '../api_stuffs/tools/global.php';
     $load = array(
-        'token' => $token,
-        'success' => "Give All Classes Data",
-        'user_id' => $nsu_id
+        'class_id' => "cse_327_6",
+        'secret_message' => "Give All Posts"
     );
-    $res = make_req($class_url, $load);
+    $res = make_req($post_url, $load);
     $res = json_decode($res, true);
-    $_SESSION['res'] = $res;
-    //echo "<pre>";
-    //print_r($_SESSION['res']);
-    //echo "</pre>";
+    $_SESSION['post'] = $res;
+    $post_data = $res;
+    echo "<pre>";
+    print_r($post_data);
+    echo "</pre>";
 
 ?>
 <!DOCTYPE html>

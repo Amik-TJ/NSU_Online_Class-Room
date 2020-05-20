@@ -1,56 +1,45 @@
 <?php
 //include_once 'includes/header.php';
-    session_start();
-    $token = $_SESSION['token'];
-    // log out
-    if (isset($_GET['log_out'])) {
-        if ($token){
-            $_SESSION['token'] = null;
-            $_SESSION['nsu_id'] = null;
-            $_SESSION['person_id'] = null;
-            $_SESSION['student_name'] = null;
-            $_SESSION['email'] = null;
-            $_SESSION['gender'] = null;
-        }else{
-            $_SESSION['token'] = null;
-            $_SESSION['nsu_id'] = null;
-            $_SESSION['person_id'] = null;
-            $_SESSION['faculty_name'] = null;
-            $_SESSION['faculty_initial'] = null;
-            $_SESSION['email'] = null;
-            $_SESSION['gender'] = null;
-        }
-        session_destroy();
-        header('Location: index.php');
-    }else{
-        // Session er data rakhtesi home e display korar jnnno !
-        if($token){
-            $name = $_SESSION['student_name'];
-        }else{
-            $name = $_SESSION['faculty_name'];
-        }
-        $nsu_id = $_SESSION['nsu_id'];
-        $email = $_SESSION['email'];
-        $gender = $_SESSION['gender'];
+session_start();
+if (!$_SESSION['security']) {
+    header('Location: index.php');
+}
+$token = $_SESSION['token'];
+// log out
+if (isset($_GET['log_out'])) {
+    session_destroy();
+    header('Location: index.php');
+} else {
+    // Session er data rakhtesi home e display korar jnnno !
+    if ($token) {
+        $name = $_SESSION['student_name'];
+    } else {
+        $name = $_SESSION['faculty_name'];
     }
+    $nsu_id = $_SESSION['nsu_id'];
+    $email = $_SESSION['email'];
+    $gender = $_SESSION['gender'];
+}
 
-    // API
-    include_once '../api_stuffs/tools/global.php';
-    $load = array(
-        'token' => $token,
-        'success' => "Give All Classes Data",
-        'user_id' => $nsu_id
-    );
-    $res = make_req($class_url, $load);
-    $res = json_decode($res, true);
-    $_SESSION['res'] = $res;
-    //echo "<pre>";
-    //print_r($_SESSION['res']);
-    //echo "</pre>";
+// API
+include_once "random_color.php";
+include_once '../api_stuffs/tools/global.php';
+$load = array(
+    'token' => $token,
+    'success' => "Give All Classes Data",
+    'user_id' => $nsu_id
+);
+$res = make_req($class_url, $load);
+$res = json_decode($res, true);
+$_SESSION['class_data'] = $res;
+$class_data = $res; // for showing information in Home2.php
+//echo "<pre>";
+//print_r($_SESSION['class_data']);
+//echo "</pre>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -71,158 +60,125 @@
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+</head>
+<body>
 
-    <!-- navbar -->
-    <nav class="navbar navbar-toggleable-md bg-primary navbar-inverse">
-        <div class="container">
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">Home</a>
-                    <a class="nav-item nav-link" href="#">Profile</a>
-                    <a class="nav-item nav-link" href="#">Classroom</a>
-                    <a class="nav-item nav-link" href="#">Logout</a>
-                    <a class="nav-item nav-link" href="#">Contact</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="jumbotron jumbotron-fluid bg-info text-white text-center">
-        <div class="container">
-            <h1 class="display-1">NSU Online Classroom</h1>
-            <p class="lead">An Online Portal for Managing Courses</p>
-        </div>
-    </div>
-
-
+<!-- navbar -->
+<nav class="navbar navbar-toggleable-md bg-primary navbar-inverse">
     <div class="container">
-        <div class="d-flex flex-row-reverse">
-            <div class="p-2">
-                <div class="container-fluid  ">
-                    <div class="card ">
-                        <div class="card-body px-3 py-3">
-                            <h4><?php echo $name; ?></h4>
-                            <h4><?php echo $nsu_id; ?></h4>
-                        </div>
-                    </div>
-                </div>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Home</a>
+                <a class="nav-item nav-link" href="#">Profile</a>
+                <a class="nav-item nav-link" href="#">Classroom</a>
+                <a class="nav-item nav-link" href="logout.php">Logout</a>
+                <a class="nav-item nav-link" href="#">Contact</a>
             </div>
-            <div class="p-2">
-                <div class="container-fluid ">
-                    <div class="card" style="width: 8rem;">
-                        <img class="card-img-top img-fluid" src="Imgs/<?php
-                        if($token){
-                           if($gender == "male"){
-                               echo "student_male.jpg";
-                           }else{
-                               echo "student_female.jpg";
-                           }
-                       }else{
-                            if($gender == "male"){
-                                echo "faculty_male.png";
-                            }else{
-                                echo "faculty_female.png";
-                            }
-                       } ?>">
+        </div>
+    </div>
+</nav>
+
+<div class="jumbotron jumbotron-fluid bg-info text-white text-center">
+    <div class="container">
+        <h1 class="display-1">NSU Online Classroom</h1>
+        <p class="lead">An Online Portal for Managing Courses</p>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="d-flex flex-row-reverse">
+        <div class="p-2">
+            <div class="container-fluid  ">
+                <div class="card ">
+                    <div class="card-body px-3 py-3">
+                        <h4><?php echo $name; ?></h4>
+                        <h4>ID:<?php echo $nsu_id; ?></h4>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-
-    <div class="container text-muted px-5 py-5">
-        <div class="row justify-content-center px-15 py-15 ">
-            <div class="col-4 mb-3">
-
-                <div class="card text-white bg-warning " style="max-width: 30rem;">
-
-                    <div class="card-body px-3 py-3">
-                        <a href="#" class="text-white"> <h2>CSE 425</h2> </a>
-                        <h5 class="card-text">Section: 6</h5>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text">Time: MW 1:00-2:40 </h4>
-                        <h4 class="card-text">Room: Sac 312 </h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-4 mb-3">
-                <div class="card text-white bg-success  " style="max-width: 30rem;">
-
-                    <div class="card-body px-3 py-3">
-                        <a href="#" class="text-white"> <h2>MAT 361</h2> </a>
-                        <h5 class="card-text">Section: 12</h5>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text">Time: RA 8:00-9:40 </h4>
-                        <h4 class="card-text">Room: NAC 901 </h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 mb-3">
-                <div class="card text-white bg-danger " style="max-width: 30rem;">
-
-                    <div class="card-body px-3 py-3">
-                        <a href="#" class="text-white"> <h2>CSE 327</h2> </a>
-                        <h5 class="card-text">Section: 10</h5>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text">Time: ST 4:20-5:50 </h4>
-                        <h4 class="card-text">Room: SAC 402 </h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 mb-3">
-                <div class="card text-white bg-success " style="max-width: 30rem;">
-
-                    <div class="card-body px-3 py-3">
-                        <a href="#" class="text-white"> <h2>CSE 327</h2> </a>
-                        <h5 class="card-text">Section: 10</h5>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text">Time: ST 4:20-5:50 </h4>
-                        <h4 class="card-text">Room: SAC 402 </h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 mb-3">
-                <div class="card text-white bg-danger " style="max-width: 30rem;">
-
-                    <div class="card-body px-3 py-3">
-                        <a href="#" class="text-white"> <h2>CSE 327</h2> </a>
-                        <h5 class="card-text">Section: 10</h5>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text"> </h4>
-                        <h4 class="card-text">Time: ST 4:20-5:50 </h4>
-                        <h4 class="card-text">Room: SAC 402 </h4>
-                    </div>
+        <div class="p-2">
+            <div class="container-fluid ">
+                <div class="card" style="width: 8rem;">
+                    <img class="card-img-top img-fluid" src="<?php echo $_SESSION['image']; ?>">
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 
 
+            <?php
+            if ($class_data['success']) {
+                $class_id= null;
+                echo '<a href="class.php">';
+                echo '<div class="container text-muted px-5 py-5">';
+                echo '<div class="row justify-content-center px-15 py-15 ">';
+                foreach ($class_data['data'] as $data) {
+                    $color = random_color();
+                    $class_id = $data['class_id'];
+                    echo '<div class="col-4 mb-3">';
+                    echo '<div class="card text-white" style="max-width: 40rem; background-color: #'.$color.';" >';
+                    echo '<div class="card-body px-3 py-3">';
+                    echo '<a href="#" class="text-white">';
+                    echo '<h2>';
+                    echo $data['course_id'];
+                    echo '</h2>';
+                    echo '</a>';
+                    echo '<h4 class="card-text">';
+                    echo $data['course_title'];
+                    echo '</h4>';
+                    echo '<h5 class="card-text">';
+                    echo 'Section: ' . $data['section'];
+                    echo '</h5>';
+                    echo '<h4 class="card-text">Time: ' . $data['time'];
+                    echo '</h4>';
+                    echo '<h4 class="card-text">Room: ' . $data['room_no'];
+                    echo '</h4>';
+                    echo '</h4>';
+                    if ($_SESSION['token']){
+                        echo '<h4 class="card-text">Faculty: ' . $data['faculty_name'];
+                        echo '</h4>';
+                    }
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+
+                }
+                echo '</div>';
+                echo '</div>';
+                echo '</a>';
+            } else {
+                echo '<div class="card">';
+                echo "You are not enrolled in any Class";
+                echo '</div>';
+            }
+            ?>
 
 
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script>
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+<script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
-    </script>
-  </body>
+</script>
+</body>
 </html>

@@ -106,14 +106,14 @@
                 <b class="arrow"></b>
             </li>
             <li class="hover">
-                <a href="class.php">
+                <a href="home2.php">
                     <i class="menu-icon fa fa-book"></i>
                     <span class="menu-text">Classroom</span>
                 </a>
                 <b class="arrow"></b>
             </li>
             <li class="hover">
-                <a href="home.php?log_out=true">
+                <a href="logout.php">
                     <i class="menu-icon fa fa-power-off"></i>
                     <span class="menu-text">Logout</span>
                     <b class="arrow fa fa-angle-down"></b>
@@ -142,20 +142,7 @@
                                 <div>
                                     <span class="profile-picture">
                                         <img id="avatar" class="editable img-responsive" alt="Avatar"
-                                             src="Imgs/<?php
-                                             if($token){
-                                                if($gender == "male"){
-                                                    echo "student_male.jpg";
-                                                }else{
-                                                    echo "student_female.jpg";
-                                                }
-                                            }else{
-                                                 if($gender == "male"){
-                                                     echo "faculty_male.png";
-                                                 }else{
-                                                     echo "faculty_female.png";
-                                                 }
-                                            } ?>" width="160"/>
+                                             src="<?php echo $_SESSION['image'];?>" width="160"/>
                                     </span>
                                     <div class="space-4"></div>
                                     <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">

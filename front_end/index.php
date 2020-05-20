@@ -20,7 +20,14 @@ if (isset($_POST['submit'])) {
             $_SESSION['student_name'] = $res['student_name'];
             $_SESSION['email'] = $res['email'];
             $_SESSION['gender'] = $res['gender'];
+            // message for sufing in pages
             $_SESSION['security'] = true;
+            // Setting Image
+            if ( $_SESSION['gender'] === "male"){
+                $_SESSION['image'] = "Imgs/student_male.jpg";
+            }else{
+                $_SESSION['image'] = "Imgs/student_female.jpg";
+            }
             header('Location: home.php');
 
         }else{// This is for Faculty
@@ -32,11 +39,19 @@ if (isset($_POST['submit'])) {
             $_SESSION['faculty_initial'] = $res['faculty_initial'];
             $_SESSION['email'] = $res['email'];
             $_SESSION['gender'] = $res['gender'];
+            // message for surfing in pages
             $_SESSION['security'] = true;
+            // Setting Image
+            if ( $_SESSION['gender'] === "male"){
+                $_SESSION['image'] = "Imgs/faculty_male.png";
+            }else{
+                $_SESSION['image'] = "Imgs/faculty_female.png";
+            }
             header('Location: home.php');
         }
     }else{
         $error = $res['error_message'];
+        //header('Location: index.php');
     }
 }// end of postcheck
 ?>

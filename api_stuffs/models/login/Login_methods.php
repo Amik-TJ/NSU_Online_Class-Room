@@ -48,7 +48,6 @@
             }else{
                 // SQL
                 $sql = 'SELECT password FROM '. $this->person_table .' where person_id=(SELECT person_id FROM '. $this->student_table .' where nsu_id= :user_id )';
-
                 // Prepare Statement
                 $stmt = $this->conn->prepare($sql);
 
@@ -56,6 +55,13 @@
                 $stmt->execute(array(
                     ':user_id' => $this->user_id
                 ));
+                $number_of_rows = $stmt->rowCount();
+                if( ! $number_of_rows > 0){
+                    $this->conn = null;
+                    $this->error_message= "User not Existed";
+                    $this->message = false;
+                    return;
+                }
                 // Recieve Password from Database
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -107,35 +113,43 @@
                 $stmt->execute(array(
                     ':user_id' => $this->user_id
                 ));
-                // Recieve Password from Database
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $number_of_rows = $stmt->rowCount();
 
-                // Comparing Password
-                if ( $row['password'] === $this->password ) {
-                    // Digging data from database after successfull login
-                    $sql = 'SELECT p.person_id, p.name , p.email, p.gender, f.faculty_id from '.$this->person_table.' as p, '.$this->faculty_table.' as f where p.person_id=f.person_id and f.faculty_initial= :user_id';
-
-                    // Prepare Statement
-                    $stmt = $this->conn->prepare($sql);
-                    // Execute Query
-                    $stmt->execute(array(
-                        ':user_id' => $this->user_id
-                    ));
-
+                if($number_of_rows > 0){
+                    // Recieve Password from Database
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    // Comparing Password
+                    if ( $row['password'] === $this->password ) {
+                        // Digging data from database after successfull login
+                        $sql = 'SELECT p.person_id, p.name , p.email, p.gender, f.faculty_id from '.$this->person_table.' as p, '.$this->faculty_table.' as f where p.person_id=f.person_id and f.faculty_initial= :user_id';
 
-                    $this->person_id = $row['person_id'];
-                    $this->faculty_name = $row['name'];
-                    $this->faculty_id = $row['faculty_id'];
-                    $this->email = $row['email'];
-                    $this->gender= $row['gender'];
-                    $this->error_message = "No errors";
-                    $this->message = true;
-                }
-                else {
+                        // Prepare Statement
+                        $stmt = $this->conn->prepare($sql);
+                        // Execute Query
+                        $stmt->execute(array(
+                            ':user_id' => $this->user_id
+                        ));
+
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        $this->person_id = $row['person_id'];
+                        $this->faculty_name = $row['name'];
+                        $this->faculty_id = $row['faculty_id'];
+                        $this->email = $row['email'];
+                        $this->gender= $row['gender'];
+                        $this->error_message = "No errors";
+                        $this->message = true;
+                    }
+                    else {
+                        $this->conn = null;
+                        $this->error_message = "Password didn't match"; // character :21
+                    }
+                }else{
                     $this->conn = null;
-                    $this->error_message = "Password didn't match"; // character :21
+                    $this->error_message= "User not Existed";
+                    $this->message = false;
                 }
+
             }
         }
     }

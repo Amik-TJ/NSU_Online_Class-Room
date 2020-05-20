@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2020 at 11:36 PM
+-- Generation Time: May 20, 2020 at 01:30 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -168,6 +168,7 @@ CREATE TABLE `faculty_data` (
 
 INSERT INTO `faculty_data` (`faculty_iD`, `faculty_initial`, `person_id`) VALUES
 (1610000111, 'DHN', 'f3'),
+(1610000112, 'NVA', 'f4'),
 (1720000111, 'KMB', 'f1'),
 (1920000111, 'ITN', 'f2');
 
@@ -195,10 +196,12 @@ INSERT INTO `person` (`name`, `email`, `phone_number`, `password`, `person_id`, 
 ('Khan Mohammad Habibullah', 'khan.habibullah@northsouth.edu', 1311111111, '1234', 'f1', 0, 'male'),
 ('Intisar Tahmid', 'intisarnsu@gmail.com', 1786666666, '1234', 'f2', 0, 'male'),
 ('Dihan Md Nurudddin', 'dihannsu@gmail.com', 1812222222, '1234', 'f3', 0, 'male'),
+('DR. Nova Ahmed', 'nova.ahmed@northsouth.edu', 1878888888, '1234', 'f4', 0, 'female'),
 ('Fahad Rahman Amik', 'amiknsu@gmail.com', 1685290796, '1234', 's1', 1, 'male'),
 ('Ariful Haque', 'arifulnsu@gmail.com', 1687878656, '1234', 's2', 1, 'male'),
 ('Yearat Hossain', 'yearatnsu@gmail.com', 1678888009, '1234', 's3', 1, 'male'),
-('Simanto Tareq', 'tareqnsu@gmail.com', 1699999999, '1234', 's4', 1, 'male');
+('Simanto Tareq', 'tareqnsu@gmail.com', 1699999999, '1234', 's4', 1, 'male'),
+('Anika Jahin', 'anika.jahin01@northsouth.edu', 1689999999, '1234', 's5', 1, 'female');
 
 -- --------------------------------------------------------
 
@@ -257,7 +260,8 @@ INSERT INTO `student_data` (`nsu_id`, `person_id`) VALUES
 (1721277042, 's1'),
 (1722231042, 's2'),
 (1712275042, 's3'),
-(1712390642, 's4');
+(1712390642, 's4'),
+(1811895030, 's5');
 
 -- --------------------------------------------------------
 
