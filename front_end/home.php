@@ -3,38 +3,16 @@
     session_start();
     if ($_SESSION['security']){
         $token = $_SESSION['token'];
-        // log out
-        if (isset($_GET['log_out'])) {
-            if ($token){
-                $_SESSION['token'] = null;
-                $_SESSION['nsu_id'] = null;
-                $_SESSION['person_id'] = null;
-                $_SESSION['student_name'] = null;
-                $_SESSION['email'] = null;
-                $_SESSION['gender'] = null;
-            }else{
-                $_SESSION['token'] = null;
-                $_SESSION['nsu_id'] = null;
-                $_SESSION['person_id'] = null;
-                $_SESSION['faculty_name'] = null;
-                $_SESSION['faculty_initial'] = null;
-                $_SESSION['email'] = null;
-                $_SESSION['gender'] = null;
-            }
-            $_SESSION['security'] = false;
-            session_destroy();
-            header('Location: index.php');
-        }else{
-            // Session er data rakhtesi home e display korar jnnno !
-            if($token){
-                $name = $_SESSION['student_name'];
-            }else{
-                $name = $_SESSION['faculty_name'];
-            }
-            $nsu_id = $_SESSION['nsu_id'];
-            $email = $_SESSION['email'];
-            $gender = $_SESSION['gender'];
-        }
+    // Session er data rakhtesi home e display korar jnnno !
+    if($token){
+        $name = $_SESSION['student_name'];
+    }else{
+        $name = $_SESSION['faculty_name'];
+    }
+    $nsu_id = $_SESSION['nsu_id'];
+    $email = $_SESSION['email'];
+    $gender = $_SESSION['gender'];
+
     }else{
         echo "You are Not Logged In";
         header('Location: index.php');

@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if (!$_SESSION['security']) {
+        header('Location: index.php');
+    }
     $token = $_SESSION['token'];
     if($token){
         $name = $_SESSION['student_name'];
@@ -10,20 +13,25 @@
     $email = $_SESSION['email'];
     $gender = $_SESSION['gender'];
 
-
+    $i = $_GET['id'];
+    $i--;
+    $single_class_data = $_SESSION['class_data']['data'][$i];
     // API
     include_once '../api_stuffs/tools/global.php';
     $load = array(
-        'class_id' => "cse_327_6",
+        'class_id' => $single_class_data['class_id'],
         'secret_message' => "Give All Posts"
     );
     $res = make_req($post_url, $load);
     $res = json_decode($res, true);
     $_SESSION['post'] = $res;
     $post_data = $res;
-    echo "<pre>";
+    /*echo "<pre>";
     print_r($post_data);
-    echo "</pre>";
+    echo "</pre>";*/
+    /*echo "<pre>";
+    print_r($post_data);
+    echo "</pre>";*/
 
 ?>
 <!DOCTYPE html>
@@ -80,20 +88,19 @@
   <body>
 
     <!-- navbar -->
-    <nav class="navbar navbar-toggleable-md bg-primary navbar-inverse">
+    <nav class="navbar navbar-toggleable-md navbar-inverse" style="background-color: #06265F;">
         <div class="container">
             <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="#">Home</a>
-                    <a class="nav-item nav-link active" href="#">CSE 327</a>
-                    <a class="nav-item nav-link" href="#">Classroom</a>
-                    <a class="nav-item nav-link" href="#">Timeline</a>
+                <div class="navbar-nav text-white ml-auto" >
+                    <a class="nav-item nav-link" href="home.php">Back to RDS</a>
+                    <a class="nav-item nav-link" href="home2.php">Home</a>
                     <a class="nav-item nav-link" href="#">Exam</a>
                     <a class="nav-item nav-link" href="#">Assignment</a>
                     <a class="nav-item nav-link" href="#">Download</a>
+                    <a class="nav-item nav-link" href="logout.php">Log Out</a>
                 </div>
             </div>
         </div>
@@ -103,10 +110,10 @@
     <!--The Huge Blue Banner-->
     <div class="jumbotron jumbotron-fluid bg-info text-white text-center">
         <div class="container">
-            <h1 class="display-1">CSE 327: Software Engineering</h1>
-            <p class="lead ">Section: 5</p>
-            <h5 class="text-monospace">MW 1:00-4:20</h5>
-            <h6 class="text-monospace">SAC 312</h6>
+            <h1 class="display-1"><?php echo strtoupper($single_class_data['course_id']).' : '.$single_class_data['course_title']?></h1>
+            <p class="lead ">Section : <?php echo $single_class_data['section']?></p>
+            <h5 class="text-monospace">Time : <?php  echo  $single_class_data['time'];?></h5>
+            <h6 class="text-monospace"><?php echo strtoupper($single_class_data['room_no']);?></h6>
         </div>
     </div>
 
@@ -159,11 +166,16 @@
                                 <div class="space-4"></div>
 
                                 <!--Topic Selecter-->
-                                <select class="form-control form-control-sm">
-                                    <option>Assignment</option>
-                                    <option>Exam</option>
-                                    <option>Discussion</option>
-                                </select>
+                                <?php
+                                    if (!$_SESSION['token']){
+                                        echo'<select class="form-control form-control-sm">';
+                                            echo'<option>Assignment</option>';
+                                            echo'<option>Exam</option>';
+                                            echo'<option>Discussion</option>';
+                                        echo'</select>';
+                                    }
+                                ?>
+
                                 <div class="space-4"></div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
@@ -175,19 +187,28 @@
                     <div class="row">
                         <div class="card">
                             <div class="card-header">
-                                <a href="#"></a>
                                 <img src="Imgs/faculty_male.png" class="rounded float-left" alt="">
                                 </a>
                                 <h5>Khan Md Habibullah</h5>
-                                <p>161000042</hp>
+                                <p>161000042</p>
                             </div>
                             <div class="card-body">
                                 <blockquote class="blockquote mb-0">
-                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris.
-
-                                        SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.
-
-                                        SoftEther VPN is an optimum alternative to OpenVPN and Microsoft's VPN servers. SoftEther VPN has a clone-function of OpenVPN Server. You can integrate from OpenVPN to SoftEther VPN smoothly. SoftEther VPN is faster than OpenVPN. SoftEther VPN also supports Microsoft SSTP VPN for Windows Vista / 7 / 8. No more need to pay expensive charges for Windows Server license for Remote-Access VPN function.</p>
+                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris. SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.</p>
+                                    <footer class="blockquote-footer"> Posted 2 days ago <cite title="Source Title">#Exam</cite></footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="Imgs/faculty_male.png" class="rounded float-left" alt="">
+                                </a>
+                                <h5>Khan Md Habibullah</h5>
+                                <p>161000042</p>
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris. SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.</p>
                                     <footer class="blockquote-footer"> Posted 2 days ago <cite title="Source Title">#Exam</cite></footer>
                                 </blockquote>
                             </div>
@@ -198,7 +219,7 @@
                                 <img src="Imgs/student_male.jpg" class="rounded float-left " alt="">
                                 </a>
                                 <h5>Yearat Hossain</h5>
-                                <p>1712275642</hp>
+                                <p>1712275642</p>
                             </div>
                             <div class="card-body">
                                 <blockquote class="blockquote mb-0">
@@ -235,7 +256,15 @@
         </div>
     </div>
 
-
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+                <span class="bigger-120 blue bolder mleft">Developed & Maintained By Full_Of_BUGS.</span>
+            </div>
+        </div>
+    </div>
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"><i
+                class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i></a>
 
 
 

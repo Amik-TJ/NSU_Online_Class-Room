@@ -4,12 +4,7 @@ session_start();
 if (!$_SESSION['security']) {
     header('Location: index.php');
 }
-$token = $_SESSION['token'];
-// log out
-if (isset($_GET['log_out'])) {
-    session_destroy();
-    header('Location: index.php');
-} else {
+    $token = $_SESSION['token'];
     // Session er data rakhtesi home e display korar jnnno !
     if ($token) {
         $name = $_SESSION['student_name'];
@@ -19,7 +14,7 @@ if (isset($_GET['log_out'])) {
     $nsu_id = $_SESSION['nsu_id'];
     $email = $_SESSION['email'];
     $gender = $_SESSION['gender'];
-}
+
 
 // API
 include_once "random_color.php";
@@ -33,9 +28,9 @@ $res = make_req($class_url, $load);
 $res = json_decode($res, true);
 $_SESSION['class_data'] = $res;
 $class_data = $res; // for showing information in Home2.php
-//echo "<pre>";
-//print_r($_SESSION['class_data']);
-//echo "</pre>";
+/*echo "<pre>";
+print_r($_SESSION['class_data']);
+echo "</pre>";*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,24 +61,21 @@ $class_data = $res; // for showing information in Home2.php
 <body>
 
 <!-- navbar -->
-<nav class="navbar navbar-toggleable-md bg-primary navbar-inverse">
+<nav class="navbar navbar-toggleable-md  navbar-inverse" style="background-color: #000545;">
     <div class="container">
         <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="#">Home</a>
-                <a class="nav-item nav-link" href="#">Profile</a>
-                <a class="nav-item nav-link" href="#">Classroom</a>
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link active" href="home.php">Back to RDS</a>
                 <a class="nav-item nav-link" href="logout.php">Logout</a>
-                <a class="nav-item nav-link" href="#">Contact</a>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="jumbotron jumbotron-fluid bg-info text-white text-center">
+<div class="jumbotron jumbotron-fluid text-white text-center" style="background-color: #06265F;">
     <div class="container">
         <h1 class="display-1">NSU Online Classroom</h1>
         <p class="lead">An Online Portal for Managing Courses</p>
@@ -95,7 +87,7 @@ $class_data = $res; // for showing information in Home2.php
     <div class="d-flex flex-row-reverse">
         <div class="p-2">
             <div class="container-fluid  ">
-                <div class="card ">
+                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); ">
                     <div class="card-body px-3 py-3">
                         <h4><?php echo $name; ?></h4>
                         <h4>ID:<?php echo $nsu_id; ?></h4>
@@ -113,55 +105,85 @@ $class_data = $res; // for showing information in Home2.php
     </div>
 </div>
 
+<div class="container">
+<div class="row">
+        <?php
+        if ($class_data['success']) {
+            $class_id = null;
+            $i=0;
+            foreach ($class_data['data'] as $data) {
+                $color = random_color();
+                $i++;
+                $class_id = 'class.php?id='.$i;
+                echo '<a href="' .$class_id.   '" style="text-decoration: none;">';
+                echo '<div class="text-muted px-5 py-5">';
+                echo '<div class="justify-content-center px-15 py-15 ">';
 
 
+                echo '<div class="col-md-3 mb-3">';
+                echo '<div class="card text-white" style="height: 17rem;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); width: 25rem; background-color: #'.$color.';" >';
+                echo '<div class="card-body px-3 py-3">';
 
-            <?php
-            if ($class_data['success']) {
-                $class_id= null;
-                echo '<a href="class.php">';
-                echo '<div class="container text-muted px-5 py-5">';
-                echo '<div class="row justify-content-center px-15 py-15 ">';
-                foreach ($class_data['data'] as $data) {
-                    $color = random_color();
-                    $class_id = $data['class_id'];
-                    echo '<div class="col-4 mb-3">';
-                    echo '<div class="card text-white" style="max-width: 40rem; background-color: #'.$color.';" >';
-                    echo '<div class="card-body px-3 py-3">';
-                    echo '<a href="#" class="text-white">';
-                    echo '<h2>';
-                    echo $data['course_id'];
-                    echo '</h2>';
-                    echo '</a>';
-                    echo '<h4 class="card-text">';
-                    echo $data['course_title'];
-                    echo '</h4>';
-                    echo '<h5 class="card-text">';
-                    echo 'Section: ' . $data['section'];
-                    echo '</h5>';
-                    echo '<h4 class="card-text">Time: ' . $data['time'];
-                    echo '</h4>';
-                    echo '<h4 class="card-text">Room: ' . $data['room_no'];
-                    echo '</h4>';
-                    echo '</h4>';
-                    if ($_SESSION['token']){
-                        echo '<h4 class="card-text">Faculty: ' . $data['faculty_name'];
-                        echo '</h4>';
-                    }
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
 
+                echo '<h2>';
+                echo strtoupper($data['course_id']);
+                echo '</h2>';
+
+                echo '<h4 class="card-text">';
+                echo $data['course_title'];
+                echo '</h4>';
+                echo '<h5 class="card-text">';
+                echo 'Section: ' . $data['section'];
+                echo '</h5>';
+                echo '<h4 class="card-text">Time: ' . $data['time'];
+                echo '</h4>';
+                echo '<h4 class="card-text">Room: ' . $data['room_no'];
+                echo '</h4>';
+                echo '</h4>';
+                if ($_SESSION['token']){
+                    echo '<h4 class="card-text">Faculty: ' . $data['faculty_name'];
+                    echo '</h4>';
                 }
                 echo '</div>';
                 echo '</div>';
-                echo '</a>';
-            } else {
-                echo '<div class="card">';
-                echo "You are not enrolled in any Class";
                 echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</a>';
+
             }
-            ?>
+
+        } else {
+           echo '<div class="row">';
+           echo '<div class="col-md-6 col-md-offset-4 text-center py-5">' ;
+            echo '<div class="card bg-primary text-white"
+                    style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);">' ;
+                echo '<div class="card-body">' ;
+                 echo '<h1 class="display-3 p-4">' ;
+                  echo 'You are not in any Class !';
+                  echo '</h1>';
+                 echo   '</div>';
+              echo '</div>';
+           echo  '</div>';
+          echo   '</div>';
+        }
+        ?>
+</div>
+</div>
+
+<div class="footer">
+    <div class="footer-inner">
+        <div class="footer-content">
+            <span class="bigger-120 blue bolder mleft">Developed & Maintained By Full_Of_BUGS.</span>
+        </div>
+    </div>
+</div>
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"><i
+            class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i></a>
+
+
+
+
 
 
 

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    unset($_SESSION['security']);
+    $_SESSION['security'] = false;
     session_destroy();
     header('Location: index.php');
 ?>

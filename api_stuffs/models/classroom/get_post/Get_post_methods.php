@@ -85,7 +85,7 @@
                         $rows = $cmnt->fetchALL(PDO::FETCH_ASSOC);
                         $this->comments_arr = array(
                             'success' => 1,
-                            'data' => array($rows)
+                            'data' => $rows
                         );
                     }
                 }else{
