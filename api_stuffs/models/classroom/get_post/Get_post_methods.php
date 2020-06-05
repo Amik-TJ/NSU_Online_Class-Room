@@ -45,7 +45,7 @@
                 $this->error_message = "HTML Injection Detected"; // Injection Detected ... Character: 23
             }else{
                 // SQL
-                $sql = 'SELECT ps.post_id, ps.created_by as creator_id, p.name as creator_name,ps.created_time, ps.post_text, ps.material as post_material FROM ' .$this->post_table. ' as ps, '.$this->person_table.' as p WHERE ps.created_by=p.person_id and ps.class_id= :class_id and ps.priority=' .$this->post_priority;
+                $sql = 'SELECT ps.post_id, ps.created_by as creator_id, p.name as creator_name,ps.created_time, ps.post_text, ps.material as post_material FROM ' .$this->post_table. ' as ps, '.$this->person_table.' as p WHERE ps.created_by=p.person_id and ps.class_id= :class_id and ps.priority=' .$this->post_priority.' ORDER BY ps.created_time DESC';
 
                 // Prepare Statement
                 if($stmt = $this->conn->prepare($sql)){

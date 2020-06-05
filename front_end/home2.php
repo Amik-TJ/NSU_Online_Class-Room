@@ -110,11 +110,12 @@ echo "</pre>";*/
         <?php
         if ($class_data['success']) {
             $class_id = null;
-            $i=0;
+            $i = 0;
             foreach ($class_data['data'] as $data) {
                 $color = random_color();
-                $i++;
+
                 $class_id = 'class.php?id='.$i;
+                $i++;
                 echo '<a href="' .$class_id.   '" style="text-decoration: none;">';
                 echo '<div class="text-muted px-5 py-5">';
                 echo '<div class="justify-content-center px-15 py-15 ">';

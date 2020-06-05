@@ -3,36 +3,87 @@
     if (!$_SESSION['security']) {
         header('Location: index.php');
     }
-    $token = $_SESSION['token'];
-    if($token){
-        $name = $_SESSION['student_name'];
-    }else{
-        $name = $_SESSION['faculty_name'];
+    // Checking for Post submit
+    if (isset($_POST['post_submit'])){
+        $class_serial = $_SESSION['class_serial'];
+        // Create Post API Calling
+        include_once '../api_stuffs/tools/global.php';
+        // Loading Payloads
+        $class_id = $_SESSION['class_id'];
+        $load = array(
+            'class_id' => $class_id,
+            'secret_message' => "Create a Post",
+            'created_by' => $_SESSION['person_id'],
+            'token' => $_SESSION['token'],
+            'priority' => 3,
+            'material' => false,
+            'post_text' => $_POST['post_text']
+        );
+        $create_post_res = make_req($create_post_url, $load);
+        $create_post_res = json_decode($create_post_res, true);
+        /*echo "<pre>";
+        print_r($create_post_res);
+        echo "</pre>";*/
     }
-    $nsu_id = $_SESSION['nsu_id'];
-    $email = $_SESSION['email'];
-    $gender = $_SESSION['gender'];
+    // Checking for Comment submit
+    if (isset($_POST['comment_submit'])){
+        $class_serial = $_SESSION['class_serial'];
+        // Create Comment API Calling
+        include_once '../api_stuffs/tools/global.php';
+        // Loading Payloads
+        $load = array(
+            'post_id' => $_POST['post_id'],
+            'secret_message' => "Create a Comment",
+            'commiter_id' => $_SESSION['person_id'],
+            'comments' => $_POST['comment_text']
+        );
+        $create_comment_res = make_req($create_comment_url, $load);
+        $create_comment_res = json_decode($create_comment_res, true);
+        /*echo "<pre>";
+        print_r($create_comment_res);
+        echo "</pre>";*/
+    }
 
-    $i = $_GET['id'];
-    $i--;
-    $single_class_data = $_SESSION['class_data']['data'][$i];
-    // API
+    if (!isset($_POST['post_submit']) && !isset($_POST['comment_submit']) ){
+        $class_serial = $_GET['id'];
+    }
+
+    $_SESSION['class_serial'] = $class_serial;
+    $single_class_data = $_SESSION['class_data']['data'][$class_serial];
+    $class_id = $single_class_data['class_id'];
+    $_SESSION['class_id'] = $class_id;
+
+    // API called for post Data
     include_once '../api_stuffs/tools/global.php';
+    $class_url = 'class.php?id='.$class_serial;
     $load = array(
-        'class_id' => $single_class_data['class_id'],
+        'class_id' => $class_id,
         'secret_message' => "Give All Posts"
     );
-    $res = make_req($post_url, $load);
-    $res = json_decode($res, true);
-    $_SESSION['post'] = $res;
-    $post_data = $res;
-    /*echo "<pre>";
-    print_r($post_data);
-    echo "</pre>";*/
-    /*echo "<pre>";
-    print_r($post_data);
-    echo "</pre>";*/
+    $post_res = make_req($post_url, $load);
+    $post_res = json_decode($post_res, true);
+    $_SESSION['post'] = $post_res;
 
+
+    /*echo "<pre>";
+    print_r($post_res);
+    echo "</pre>";*/
+    // Get Assignment Api Calling
+    $ass_load = array(
+        'class_id' => $class_id,
+        'secret_message' => "Give All Assignment Announcements"
+    );
+    $ass_res = make_req($assignment_url, $ass_load);
+    $ass_res = json_decode($ass_res, true);
+    $_SESSION['ass_res'] = $ass_res;
+    // Get Exam Api Calling
+    $ex_load = array(
+        'class_id' => $class_id,
+        'secret_message' => "Give All Exam Announcements"
+    );
+    $ex_res = make_req($exam_url, $ex_load);
+    $ex_res = json_decode($ex_res, true);
+    $_SESSION['ex_res'] = $ex_res;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,9 +148,9 @@
                 <div class="navbar-nav text-white ml-auto" >
                     <a class="nav-item nav-link" href="home.php">Back to RDS</a>
                     <a class="nav-item nav-link" href="home2.php">Home</a>
-                    <a class="nav-item nav-link" href="#">Exam</a>
-                    <a class="nav-item nav-link" href="#">Assignment</a>
-                    <a class="nav-item nav-link" href="#">Download</a>
+                    <a class="nav-item nav-link" href="exam.php">Exam</a>
+                    <a class="nav-item nav-link" href="assignment.php">Assignment</a>
+                    <a class="nav-item nav-link" href="download.php">Download</a>
                     <a class="nav-item nav-link" href="logout.php">Log Out</a>
                 </div>
             </div>
@@ -126,7 +177,7 @@
         <div class="row" >
 
             <!--Exam Table Stays At Left-->
-            <div class="col-sm-3">
+            <div class="col-md-3">
                 <div class="d-flex justify-content-center">
 
 
@@ -135,16 +186,30 @@
                         <h3>Exam</h3>
                     </div>
                     <ul class="list-group list-group-flush w-100 align-items-stretch">
-                        <li class="list-group-item ">1. Quiz 1: 15 May 2020</li>
-                        <li class="list-group-item">2. Mid 1: June 3 2020</li>
-                        <li class="list-group-item">3. Project Submission TBA</li>
+                        <?php
+                        if( $ex_res['success']){
+                            foreach ( $ex_res['data'] as $ex_data){
+                                $time = strtotime($ex_data['exam_time_date']);
+                                $time = date('d F Y' , $time);
+                                echo "<li class=\"list-group-item\">";
+                                echo $ex_data['exam_title'];
+                                echo ": ".$time;
+                                echo "</li>";
+
+                            }
+                        }else{
+                            echo "<li class=\"list-group-item\">";
+                            echo "Hurray !There is no Exam";
+                            echo "</li>";
+                        }
+                        ?>
                     </ul>
                 </div>
                 </div>
             </div>
 
             <!--Create Post and Timeline Stays At Middle-->
-            <div class="col-sm-6">
+            <div class="col-md-6">
 
                 <!--Separated In Two Parts
                     Create Post And Time Line-->
@@ -153,11 +218,11 @@
                     <!--Create Post Section-->
                     <div class="row mb-5">
                         <div class="container">
-                            <form>
+                            <form  action="<?php echo $class_url?>" method="post">
                                 <!--Text Box-->
                                 <h3> Create Post</h3>
                                 <div class="space-4"></div>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" name="post_text" rows="5"></textarea>
                                 <div class="space-3"></div>
 
                                 <!--Choose File-->
@@ -177,77 +242,106 @@
                                 ?>
 
                                 <div class="space-4"></div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <input type="submit" class="btn btn-primary" value="Submit" name="post_submit">
                             </form>
                             <div class="space-8"></div>
                         </div>
                     </div>
 
                     <!--Timline Section-->
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-header">
-                                <img src="Imgs/faculty_male.png" class="rounded float-left" alt="">
-                                </a>
-                                <h5>Khan Md Habibullah</h5>
-                                <p>161000042</p>
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris. SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.</p>
-                                    <footer class="blockquote-footer"> Posted 2 days ago <cite title="Source Title">#Exam</cite></footer>
-                                </blockquote>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <img src="Imgs/faculty_male.png" class="rounded float-left" alt="">
-                                </a>
-                                <h5>Khan Md Habibullah</h5>
-                                <p>161000042</p>
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris. SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.</p>
-                                    <footer class="blockquote-footer"> Posted 2 days ago <cite title="Source Title">#Exam</cite></footer>
-                                </blockquote>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <a href="#"></a>
-                                <img src="Imgs/student_male.jpg" class="rounded float-left " alt="">
-                                </a>
-                                <h5>Yearat Hossain</h5>
-                                <p>1712275642</p>
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris.
+                    <?php
+                    if ($post_res['success']){
+                        echo "<div class=\"row mb-5\">";
+                        foreach ( $post_res['data'] as $post){
+                            $id = $post['post_id'];
+                            echo "<div class=\"card\"  style='margin-left: 15px; width: 100%;'>";
+                            echo "<div class=\"card-header\">";
+                            echo "<img src=\"Imgs/faculty_male.png\" class=\"rounded float-left\" alt=\"\">";
+                            echo "<h5>".$post['creator_name']."</h5>";
+                            $time = strtotime($post['created_time']);
+                            $time = date('d F Y' , $time);
+                            echo "<p>".$time."</p>";
+                            echo "</div>";
+                            echo "<div class=\"card-body\">";
+                            echo "<blockquote class=\"blockquote mb-0\">";
+                            echo "<p>".$post['post_text']."</p>";
+                            echo "<footer class=\"blockquote-footer\">Download Item</footer>";
+                            echo "</blockquote>";
+                            echo"<div class=\"space-4\"></div>";
+                            echo "</div>";
+                            echo "</div>";
+                            // Comments Part Start
+                            if($post['comments']['success']){
+                                //Comments
+                                echo"<ul class=\"list-group list-group-flush w-100 align-items-stretch\">";
+                                // Drop Down section
+                                echo"<li class=\"list-group-item \">";
+                                echo"<p>";
+                                echo"<a class=\"btn btn-primary\" data-toggle=\"collapse\" href=\"#".$id."\" role=\"button\" aria-expanded=\"false\" aria-controls=\"post2\">";
+                                echo"See Comments";
+                                echo"</a>";
+                                echo"</p>";
+                                echo"<div class=\"collapse\" id=\"".$id."\">";
+                                //  Each one is a comment
+                                foreach ($post['comments']['data'] as $cmnt){
+                                    echo"<div class=\"card card-body\" >";
+                                    echo"<h5 class=\"card-title\">";
+                                    echo $cmnt['commiter_name'];
+                                    echo"</h5>";
+                                    echo $cmnt['comments'];
+                                    echo"</div>";
+                                }
+                                echo "</div>";
+                                echo "</li>";
 
-                                        SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.
+                            }
+                            // Add A Comment Form
+                            echo "<li class=\"list-group-item\" style='margin-left: 15px; width: 100%;'>";
+                            echo "<form  action=\"".$class_url."\" method=\"post\" >";
+                            echo "<div class=\"form-group\">";
+                            echo '<input type="hidden" name="post_id" value="'.$id.'">';
+                            echo '<input class="form-control" name="comment_text" type="text" placeholder="add a comment.." style="width: 100%;">';
+                            echo "</div>";
+                            echo "<button type=\"submit\" class=\"btn btn-success\" name=\"comment_submit\">Submit</button>";
+                            echo "</form>";
+                            echo "</li>";
+                            echo "</ul>";
 
-                                        SoftEther VPN is an optimum alternative to OpenVPN and Microsoft's VPN servers. SoftEther VPN has a clone-function of OpenVPN Server. You can integrate from OpenVPN to SoftEther VPN smoothly. SoftEther VPN is faster than OpenVPN. SoftEther VPN also supports Microsoft SSTP VPN for Windows Vista / 7 / 8. No more need to pay expensive charges for Windows Server license for Remote-Access VPN function.</p>
-                                    <footer class="blockquote-footer"> Posted 5 days ago <cite title="Source Title">#Assignment</cite></footer>
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
+                        }
+                        echo "</div>";
+                        echo "</div>";
+                    }
 
-                </div>
+                    ?>
+                    
 
             </div>
 
             <!--Assignment Table Stays At Right-->
-            <div class="col-sm-3">
+            <div class="col-md-3">
                 <div class="d-flex justify-content-center">
                 <div class="card" style="width: 25rem;">
                     <div class="card-header">
                         <h3>Assignment</h3>
                     </div>
                     <ul class="list-group list-group-flush w-100 align-items-stretch">
-                        <li class="list-group-item">1. Assignment 1, Due: 5 May 2020</li>
-                        <li class="list-group-item">2. Assignment 2, Due: 15 June 2020</li>
+                        <?php
+                            if( $ass_res['success']){
+                                foreach ( $ass_res['data'] as $ass_data){
+                                    $due = strtotime($ass_data['assignment_due_date']);
+                                    $due = date('d F Y' , $due);
+                                    echo "<li class=\"list-group-item\">";
+                                    echo $ass_data['assignment_title'];
+                                    echo ", Due: ".$due;
+                                    echo "</li>";
+
+                                }
+                            }else{
+                                echo "<li class=\"list-group-item\">";
+                                echo "There is no Assignments !";
+                                echo "</li>";
+                            }
+                        ?>
 
                     </ul>
                 </div>

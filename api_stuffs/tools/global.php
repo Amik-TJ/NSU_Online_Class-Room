@@ -4,6 +4,10 @@
     $post_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/get_post/get_post_api.php";
     $assignment_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/get_post/get_assignment_api.php";
     $exam_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/get_post/get_exam_api.php";
+    $create_post_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/create_post/create_post_api.php";
+    $create_comment_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/create_post/create_comment_api.php";
+    $create_assignment_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/create_post/create_assignement_api.php";
+    $create_exam_url = "http://localhost/nsu_online_classroom/api_stuffs/api/classroom/create_post/create_exam_api.php";
 
 
 
