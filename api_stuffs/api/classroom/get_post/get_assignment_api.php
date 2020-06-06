@@ -73,7 +73,7 @@
                             'priority' => 2
                         );
 
-                        //Putting Post Data into $post_arr['data']
+
                         $assignment_arr['data'] = array();
                         // Fetching Data
                         while ( $row = $result->fetch(PDO::FETCH_ASSOC)){

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2020 at 01:30 AM
+-- Generation Time: Jun 06, 2020 at 05:12 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -93,7 +93,15 @@ INSERT INTO `comments` (`post_id`, `commiter_id`, `comments`) VALUES
 ('cse_327_6_1', 's1', ' This is a comment for test'),
 ('cse_225_10_4', 's1', 'This is a trial Comment for CREATE Comment API'),
 ('cse_225_10_4', 's1', 'This is a trial Comment for CREATE Comment API'),
-('cse_225_10_4', 'f1', 'This is a trial Comment for CREATE Comment API');
+('cse_225_10_4', 'f1', 'This is a trial Comment for CREATE Comment API'),
+('cse_327_6_19', 's1', 'This is a coment by Fahad From Faculty portal after commenting comment API'),
+('cse_327_6_19', 's1', 'This is a coment 2 by Fahad From Faculty portal after commenting comment API'),
+('cse_327_6_18', 's1', 'Assssssssssssssssssss'),
+('cse_225_10_4', 's1', 'This is a coment by Fahad From Faculty portal after commenting comment API'),
+('cse_225_10_4', 's1', 'This is a coment by Fahad From Faculty portal after commenting comment API'),
+('cse_225_10_22', 's1', 'Hello Comment 2225555'),
+('cse_225_10_22', 's1', 'Hello Comment 2225555'),
+('cse_225_10_22', 's1', 'Hello Comment 2225555');
 
 -- --------------------------------------------------------
 
@@ -148,7 +156,8 @@ CREATE TABLE `exam_notice` (
 INSERT INTO `exam_notice` (`post_id`, `priority`, `exam_title`, `exam_time_date`) VALUES
 ('cse_327_6_2', 1, 'Quiz 1', '2020-05-13 11:23:30.535371'),
 ('cse_327_6_6', 1, 'Quiz 2', '2020-05-28 19:00:00.000000'),
-('cse_327_6_14', 1, 'Quiz 3', '2020-05-20 07:00:00.000000');
+('cse_327_6_14', 1, 'Quiz 3', '2020-05-20 07:00:00.000000'),
+('cse_225_10_15', 1, 'Quiz 1', '2020-05-20 07:00:00.000000');
 
 -- --------------------------------------------------------
 
@@ -217,7 +226,7 @@ CREATE TABLE `post` (
   `created_by` varchar(255) NOT NULL,
   `token` int(10) NOT NULL DEFAULT 1,
   `priority` int(10) NOT NULL DEFAULT 3,
-  `material` text DEFAULT 'false',
+  `material` text DEFAULT NULL,
   `post_text` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -226,20 +235,31 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`post_serial`, `post_id`, `class_id`, `created_time`, `created_by`, `token`, `priority`, `material`, `post_text`) VALUES
-(10, 'cse_225_10_10', 'cse_225_10', '2020-05-18 20:14:53.000000', 's1', 1, 3, 'image_for_cse_225.jpg', 'This is a trial 2 for CREATE POST API'),
-(11, 'cse_225_10_11', 'cse_225_10', '2020-05-18 20:17:02.000000', 'f1', 0, 3, 'image_for_cse_225.jpg', 'This is a trial 3 by faculty for CREATE POST API'),
-(12, 'cse_225_10_12', 'cse_225_10', '2020-05-18 20:17:24.000000', 'f1', 0, 3, 'image_for_cse_225.jpg', 'Your Exam will not be held'),
-(4, 'cse_225_10_4', 'cse_225_10', '2020-05-17 18:58:18.831645', 's1', 1, 3, 'false', 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
-(8, 'cse_323_3_8', 'cse_323_3', '2020-05-17 18:58:33.807679', 's1', 1, 3, 'false', 'This is Post 1 for CSE 323 Section 3 by fahad Rahman Amik'),
-(1, 'cse_327_6_1', 'cse_327_6', '2020-05-17 18:58:55.477750', 's1', 1, 3, 'false', 'Hello ! THis is post 1 created by 1721277042 Student'),
-(13, 'cse_327_6_13', 'cse_327_6', '2020-05-19 19:02:41.000000', 'f1', 0, 2, '', 'This is a trial for CREATE Assignment API'),
-(14, 'cse_327_6_14', 'cse_327_6', '2020-05-19 20:17:01.000000', 'f1', 0, 1, '', 'This is a trial for CREATE Exam API'),
-(2, 'cse_327_6_2', 'cse_327_6', '2020-05-17 18:58:11.694176', 'f1', 0, 1, 'false', 'We will have our Quiz after Quaratine'),
-(3, 'cse_327_6_3', 'cse_327_6', '2020-05-17 18:58:15.598262', 'f1', 0, 2, 'false', 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation'),
-(5, 'cse_327_6_5', 'cse_327_6', '2020-05-17 18:58:22.919218', 'f1', 0, 2, 'false', 'This is Assignment 2 for CSE 327 Section 06\r\npost ID cse_327_6_5'),
-(6, 'cse_327_6_6', 'cse_327_6', '2020-05-17 18:58:25.951752', 'f1', 0, 1, 'false', 'THIS is QUIZ 2 for CSE 327 Section 06\r\npost id cse_327_6_6 Created by KMB Sir'),
-(7, 'cse_327_6_7', 'cse_327_6', '2020-05-17 18:58:39.079712', 's1', 1, 3, 'false', 'THis is Post 2 created by Fahad Rahman AMik . Class CSE 327 Section 6 . KMB sir. AND this post API works correctly'),
-(9, 'cse_327_6_9', 'cse_327_6', '2020-05-18 20:10:16.000000', 's1', 1, 3, 'image.jpg', 'This is a trial for CREATE POST API');
+(10, 'cse_225_10_10', 'cse_225_10', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'This is a trial 2 for CREATE POST API'),
+(11, 'cse_225_10_11', 'cse_225_10', '2020-06-06 15:10:20.188055', 'f1', 0, 3, 'NULL', 'This is a trial 3 by faculty for CREATE POST API'),
+(12, 'cse_225_10_12', 'cse_225_10', '2020-06-06 15:10:20.188055', 'f1', 0, 3, 'NULL', 'Your Exam will not be held'),
+(15, 'cse_225_10_15', 'cse_225_10', '2020-06-06 15:10:20.188055', 'f1', 0, 1, 'NULL', 'This is a trial for CREATE Exam API'),
+(22, 'cse_225_10_22', 'cse_225_10', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'Hellooo @@% Fahad Rahman AMik'),
+(4, 'cse_225_10_4', 'cse_225_10', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'This Post is created by 1721277042\r\nAmik Rahman \r\nCSE 225'),
+(20, 'cse_311_11_20', 'cse_311_11', '2020-06-06 15:10:20.188055', 'f2', 0, 3, 'NULL', 'This is a post From CSE 3111 '),
+(8, 'cse_323_3_8', 'cse_323_3', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'This is Post 1 for CSE 323 Section 3 by fahad Rahman Amik'),
+(1, 'cse_327_6_1', 'cse_327_6', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'Hello ! THis is post 1 created by 1721277042 Student'),
+(13, 'cse_327_6_13', 'cse_327_6', '2020-06-06 15:10:20.188055', 'f1', 0, 2, 'NULL', 'This is a trial for CREATE Assignment API'),
+(14, 'cse_327_6_14', 'cse_327_6', '2020-06-06 15:10:20.188055', 'f1', 0, 1, 'NULL', 'This is a trial for CREATE Exam API'),
+(16, 'cse_327_6_16', 'cse_327_6', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'This is a post for CSE 327 by Fahad Rahman AMik after connecting front end with API. All Work done by Amik'),
+(17, 'cse_327_6_17', 'cse_327_6', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'This is a post for CSE 327 by Fahad Rahman AMik after connecting front end with API. All Work done by Amik'),
+(18, 'cse_327_6_18', 'cse_327_6', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'This is Second Post By  Fahad Rahman After Solving All the problem on It to check it Correct or Not'),
+(19, 'cse_327_6_19', 'cse_327_6', '2020-06-06 15:10:20.188055', 'f1', 0, 3, 'NULL', 'This is from Faculty Portal Post Created By Fahaad Rahman Amik to check wheAther the post api works or Not'),
+(2, 'cse_327_6_2', 'cse_327_6', '2020-06-06 15:10:20.188055', 'f1', 0, 1, 'NULL', 'We will have our Quiz after Quaratine'),
+(23, 'cse_327_6_23', 'cse_327_6', '2020-06-06 15:11:22.000000', 'f1', 0, 3, 'Bangladesh.pdf', 'File Uploaded Wih Text'),
+(24, 'cse_327_6_24', 'cse_327_6', '2020-06-06 15:11:32.000000', 'f1', 0, 3, 'Bangladesh.pdf', 'File Uploaded Wih Text'),
+(25, 'cse_327_6_25', 'cse_327_6', '2020-06-06 15:11:45.000000', 'f1', 0, 3, NULL, 'only text'),
+(3, 'cse_327_6_3', 'cse_327_6', '2020-06-06 15:10:20.188055', 'f1', 0, 2, 'NULL', 'Assignment 1\r\nYou Need to submit assignment before EID for evaluation'),
+(5, 'cse_327_6_5', 'cse_327_6', '2020-06-06 15:10:20.188055', 'f1', 0, 2, 'NULL', 'This is Assignment 2 for CSE 327 Section 06\r\npost ID cse_327_6_5'),
+(6, 'cse_327_6_6', 'cse_327_6', '2020-06-06 15:10:20.188055', 'f1', 0, 1, 'NULL', 'THIS is QUIZ 2 for CSE 327 Section 06\r\npost id cse_327_6_6 Created by KMB Sir'),
+(7, 'cse_327_6_7', 'cse_327_6', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'THis is Post 2 created by Fahad Rahman AMik . Class CSE 327 Section 6 . KMB sir. AND this post API works correctly'),
+(9, 'cse_327_6_9', 'cse_327_6', '2020-06-06 15:10:20.188055', 's1', 1, 3, 'NULL', 'This is a trial for CREATE POST API'),
+(21, 'cse_327_7_21', 'cse_327_7', '2020-06-06 15:10:20.188055', 'f2', 0, 3, 'NULL', 'This is a post ');
 
 -- --------------------------------------------------------
 
@@ -368,7 +388,7 @@ ALTER TABLE `take_class`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `post_serial` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables

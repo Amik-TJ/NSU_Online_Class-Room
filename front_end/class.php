@@ -3,8 +3,18 @@
     if (!$_SESSION['security']) {
         header('Location: index.php');
     }
+
+
     // Checking for Post submit
     if (isset($_POST['post_submit'])){
+        // Checking any file uploaded or not
+        if(isset($_FILES['file']) && !empty($_FILES['file']['name'])){
+            include_once "upload_file.php";
+            $material = $file_name;
+        }else{
+            $material = NULL;
+            echo "Upload hoy nai";
+        }
         $class_serial = $_SESSION['class_serial'];
         // Create Post API Calling
         include_once '../api_stuffs/tools/global.php';
@@ -16,7 +26,7 @@
             'created_by' => $_SESSION['person_id'],
             'token' => $_SESSION['token'],
             'priority' => 3,
-            'material' => false,
+            'material' => $material,
             'post_text' => $_POST['post_text']
         );
         $create_post_res = make_req($create_post_url, $load);
@@ -25,6 +35,8 @@
         print_r($create_post_res);
         echo "</pre>";*/
     }
+
+
     // Checking for Comment submit
     if (isset($_POST['comment_submit'])){
         $class_serial = $_SESSION['class_serial'];
@@ -39,10 +51,10 @@
         );
         $create_comment_res = make_req($create_comment_url, $load);
         $create_comment_res = json_decode($create_comment_res, true);
-        /*echo "<pre>";
-        print_r($create_comment_res);
-        echo "</pre>";*/
+
     }
+
+
 
     if (!isset($_POST['post_submit']) && !isset($_POST['comment_submit']) ){
         $class_serial = $_GET['id'];
@@ -62,7 +74,7 @@
     );
     $post_res = make_req($post_url, $load);
     $post_res = json_decode($post_res, true);
-    $_SESSION['post'] = $post_res;
+    $_SESSION['post_res'] = $post_res;
 
 
     /*echo "<pre>";
@@ -218,7 +230,7 @@
                     <!--Create Post Section-->
                     <div class="row mb-5">
                         <div class="container">
-                            <form  action="<?php echo $class_url?>" method="post">
+                            <form  action="<?php echo $class_url?>" method="post" enctype="multipart/form-data">
                                 <!--Text Box-->
                                 <h3> Create Post</h3>
                                 <div class="space-4"></div>
@@ -227,7 +239,7 @@
 
                                 <!--Choose File-->
                                 <label for="exampleFormControlFile1">Upload a file</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
                                 <div class="space-4"></div>
 
                                 <!--Topic Selecter-->
@@ -249,7 +261,6 @@
                     </div>
 
                     <!--Timline Section-->
-<<<<<<< HEAD
                     <?php
                     if ($post_res['success']){
                         echo "<div class=\"row mb-5\">";
@@ -315,183 +326,6 @@
 
                     ?>
                     
-=======
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-header">
-                                <img src="Imgs/faculty_male.png" class="rounded float-left" alt="">
-                                </a>
-                                <h5>Khan Md Habibullah</h5>
-                                <p>161000042</p>
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris. SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.</p>
-                                    <footer class="blockquote-footer"> Posted on April 3 <cite title="Source Title">#Exam</cite></footer>
-                                </blockquote>
-                                <div class="space-4"></div>
-
-                                <!--Comments-->
-                                <ul class="list-group list-group-flush w-100 align-items-stretch">
-                                    <!--Drop Down section-->
-                                    <li class="list-group-item ">
-                                        <p>
-                                            <a class="btn btn-primary" data-toggle="collapse" href="#post1" role="button" aria-expanded="false" aria-controls="post1">
-                                                Comments
-                                            </a>
-                                        </p>
-                                        <div class="collapse" id="post1">
-                                            <!--Each one is a comment-->
-                                            <div class="card card-body" >
-                                                <h5 class="card-title">Yearat Hossain</h5>
-
-                                                <h6 class="card-subtitle mb-2 text-muted">April 3</h6>
-
-                                                If you have been following banking, investing, or cryptocurrency over the last ten years, you may be familiar with “blockchain,” the record-keeping technology behind the Bitcoin network. And there’s a good chance that it only makes so much sense.
-                                            </div>
-                                            <div class="card card-body">
-                                                <h5 class="card-title">Amik Rahman</h5>
-
-                                                <h6 class="card-subtitle mb-2 text-muted">April 4</h6>
-                                                “Blocks” on the blockchain are made up of digital pieces of information. Specifically, they have three parts:
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--Add A Comment Form-->
-                                    <li class="list-group-item">
-                                        <form class="" action="index.html" method="post">
-
-                                            <div class="form-group">
-                                                <input class="form-control" type="text" placeholder="add a comment..">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <img src="Imgs/faculty_male.png" class="rounded float-left" alt="">
-                                </a>
-                                <h5>Khan Md Habibullah</h5>
-                                <p>161000042</p>
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris. SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.</p>
-                                    <footer class="blockquote-footer"> Posted on April 1 <cite title="Source Title">#Exam</cite></footer>
-                                </blockquote>
-                                <div class="space-4"></div>
-
-                                <!--Comments-->
-                                <ul class="list-group list-group-flush w-100 align-items-stretch">
-                                    <!--Drop Down section-->
-                                    <li class="list-group-item ">
-                                        <p>
-                                            <a class="btn btn-primary" data-toggle="collapse" href="#post2" role="button" aria-expanded="false" aria-controls="post2">
-                                                Comments
-                                            </a>
-                                        </p>
-                                        <div class="collapse" id="post2">
-                                            <!--Each one is a comment-->
-                                            <div class="card card-body" >
-                                                <h5 class="card-title">Shimanto Tareq</h5>
-
-                                                <h6 class="card-subtitle mb-2 text-muted">April 2</h6>
-
-                                                If you have been following banking, investing, or cryptocurrency over the last ten years, you may be familiar with “blockchain,” the record-keeping technology behind the Bitcoin network. And there’s a good chance that it only makes so much sense.
-                                            </div>
-                                            <div class="card card-body">
-                                                <h5 class="card-title">Amik Rahman</h5>
-
-                                                <h6 class="card-subtitle mb-2 text-muted">April 2</h6>
-                                                “Blocks” on the blockchain are made up of digital pieces of information. Specifically, they have three parts:
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--Add A Comment Form-->
-                                    <li class="list-group-item">
-                                        <form class="" action="index.html" method="post">
-
-                                            <div class="form-group">
-                                                <input class="form-control" type="text" placeholder="add a comment..">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <a href="#"></a>
-                                <img src="Imgs/student_male.jpg" class="rounded float-left " alt="">
-                                </a>
-                                <h5>Yearat Hossain</h5>
-                                <p>1712275642</p>
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>of the world's most powerful and easy-to-use multi-protocol VPN software. It runs on Windows, Linux, Mac, FreeBSD and Solaris.
-
-                                        SoftEther VPN is open source. You can use SoftEther for any personal or commercial use for free charge.
-
-                                        SoftEther VPN is an optimum alternative to OpenVPN and Microsoft's VPN servers. SoftEther VPN has a clone-function of OpenVPN Server. You can integrate from OpenVPN to SoftEther VPN smoothly. SoftEther VPN is faster than OpenVPN. SoftEther VPN also supports Microsoft SSTP VPN for Windows Vista / 7 / 8. No more need to pay expensive charges for Windows Server license for Remote-Access VPN function.</p>
-                                    <footer class="blockquote-footer"> Posted on March 29  <cite title="Source Title">#Assignment</cite></footer>
-                                </blockquote>
-                                <div class="space-4"></div>
-
-                                <!--Comments-->
-                                <ul class="list-group list-group-flush w-100 align-items-stretch">
-                                    <!--Drop Down section-->
-                                    <li class="list-group-item ">
-                                        <p>
-                                            <a class="btn btn-primary" data-toggle="collapse" href="#post3" role="button" aria-expanded="false" aria-controls="post3">
-                                                Comments
-                                            </a>
-                                        </p>
-                                        <div class="collapse" id="post3">
-                                            <!--Each one is a comment-->
-                                            <div class="card card-body" >
-                                                <h5 class="card-title">Amik Rahman</h5>
-
-                                                <h6 class="card-subtitle mb-2 text-muted">March 30</h6>
-
-                                                If you have been following banking, investing, or cryptocurrency over the last ten years, you may be familiar with “blockchain,” the record-keeping technology behind the Bitcoin network. And there’s a good chance that it only makes so much sense.
-                                            </div>
-                                            <div class="card card-body">
-                                                <h5 class="card-title">Shimanto Tareq</h5>
-
-                                                <h6 class="card-subtitle mb-2 text-muted">April 4</h6>
-                                                “Blocks” on the blockchain are made up of digital pieces of information. Specifically, they have three parts:
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--Add A Comment Form-->
-                                    <li class="list-group-item">
-                                        <form class="" action="index.html" method="post">
-
-                                            <div class="form-group">
-                                                <input class="form-control" type="text" placeholder="add a comment..">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
->>>>>>> 64b0ed76ff612b9fbdcb03e8ff3cd64f513ab0d4
 
             </div>
 

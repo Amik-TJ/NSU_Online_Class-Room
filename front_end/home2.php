@@ -113,7 +113,6 @@ echo "</pre>";*/
             $i = 0;
             foreach ($class_data['data'] as $data) {
                 $color = random_color();
-
                 $class_id = 'class.php?id='.$i;
                 $i++;
                 echo '<a href="' .$class_id.   '" style="text-decoration: none;">';
